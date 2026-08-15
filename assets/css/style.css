@@ -547,6 +547,11 @@ main {
   outline-offset: 1px;
 }
 
+/* Print-only twin of each record field. On screen the input itself is the
+   field; the twin exists because print cannot show a scrolled input in full.
+   See @media print at the foot of this file. */
+.sa-record__print { display: none; }
+
 .sa-list {
   margin: 0;
   padding: 0;
@@ -978,6 +983,14 @@ main {
 /* --- Print (evidence captures, print-to-PDF) ---------------------------- */
 
 @media print {
+  /* Margins for the self-assessment only, via a named page. A plain @page rule
+     would widen the margins on all seven pages, which reflows them (research
+     gained a page); this leaves them on the browser's own defaults. Claimed by
+     .sa-page below. */
+  @page sa-record {
+    margin: 0.65in 0.7in 0.6in;
+  }
+
   :root { --bg: #fff; --surface: #fff; --white: #fff; }
 
   body {
@@ -1027,34 +1040,352 @@ main {
 
   .todo { background: none; }
 
-  /* Self-assessment: print as a completed record. */
+  /* --- Self-assessment: print as the completed record ---------------------
+
+     Everything below is scoped to .sa-page (the body class on
+     self-assessment.html) so that turning one page into a paper form leaves the
+     other six pages on the generic print rules above.
+
+     The printed artifact is the organization's own record, not a saved web
+     page: masthead and running-score bar gone, one document identity line, the
+     three record fields as a ruled header block, 30 indicators with
+     unmistakable ticks, the achieved score band only, and the scope note,
+     source, and attribution as fine print at the foot.
+     ----------------------------------------------------------------------- */
+
+  .breadcrumb,
   .sa-bar,
-  .sa-actions,
-  .breadcrumb { display: none; }
+  .sa-actions { display: none; }
 
-  .sa fieldset,
-  .sa-item,
-  .sa-band,
-  .sa-table { break-inside: avoid; }
-
-  .sa-record,
-  .scope { border-color: #999 !important; }
-
-  .sa-record input {
-    background: none;
-    border: 0;
-    border-bottom: 1px solid #666;
+  .sa-page {
+    page: sa-record;
+    font-size: 10.25pt;
+    line-height: 1.35;
   }
 
-  .sa-item.is-yes { background: none; }
+  /* The record header, the instrument, the score, then the fine print. Source
+     order puts the standing guidance up front, which is right on screen and
+     wrong on a form; ordering the four blocks is the only change. */
+  .sa-page main {
+    display: flex;
+    flex-direction: column;
+    max-width: none;
+    padding: 0;
+  }
 
-  .sa-item input[type="checkbox"] { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .sa-page .page-head { order: 1; }
+  .sa-page .sa { order: 2; }
+  .sa-page .sa-results { order: 3; }
+  .sa-page main > .prose { order: 4; }
 
-  .sa-band { background: none; border-left-color: #bbb; color: #333; }
+  /* Site chrome, the browser-only privacy note, and the instructions for
+     running the exercise: none of it means anything on a finished record. */
+  .sa-page .site-header,
+  .sa-page .site-footer,
+  .sa-page .note,
+  .sa-page .lede,
+  .sa-page main > .prose > h2,
+  .sa-page .sa-guide { display: none; }
 
-  .sa-band.is-current {
-    border: 1px solid #333;
-    border-left: 3px solid #000;
+  /* Both remaining absolute links are DOIs whose visible text is already the
+     URL, so the generic href-in-parentheses rule would print it twice. */
+  .sa-page a[href^="http"]::after { content: none; }
+
+  /* --- Document identity --- */
+
+  .sa-page .page-head {
+    max-width: none;
+    margin: 0 0 0.14in;
+    padding-bottom: 0.05in;
+    border-bottom: 1.5pt solid #000;
+  }
+
+  .sa-page .page-head h1 {
+    margin: 0;
+    font-size: 17pt;
+  }
+
+  .sa-page .page-head .pub__meta {
+    margin: 0.03in 0 0;
     color: #000;
+    font-size: 8.5pt;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  /* --- Record header block --- */
+
+  .sa-page .sa {
+    max-width: none;
+    margin: 0;
+  }
+
+  .sa-page .sa-record {
+    margin: 0 0 0.22in;
+    padding: 0 !important;
+    border: 0.75pt solid #000 !important;
+    break-inside: avoid;
+  }
+
+  .sa-page .sa-record legend {
+    margin: 0 0 0 0.1in;
+    padding: 0 0.06in;
+    color: #000;
+    font-size: 7pt;
+    letter-spacing: 0.14em;
+  }
+
+  /* Widths follow how much each field holds: names and roles need the room,
+     and the date column is wide enough that a written-out date does not wrap,
+     on A4 as well as Letter. */
+  .sa-page .sa-record__grid {
+    grid-template-columns: 2.2fr 1.75fr 2.9fr;
+    gap: 0;
+    margin: 0;
+  }
+
+  .sa-page .sa-record label {
+    padding: 0.04in 0.11in 0.1in;
+    border-left: 0.5pt solid #000;
+    color: #000;
+    font-size: 7pt;
+    letter-spacing: 0.09em;
+  }
+
+  .sa-page .sa-record label:first-child { border-left: 0; }
+
+  /* The input is replaced by its twin: same value, but it wraps instead of
+     clipping to one line, and it prints as writing on a form rather than as a
+     form control. Empty, it leaves a space to complete by hand. */
+  .sa-page .sa-record input { display: none; }
+
+  .sa-page .sa-record__print {
+    display: block;
+    min-height: 0.28in;
+    margin-top: 0.02in;
+    color: #000;
+    font-size: 10.5pt;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.25;
+    text-transform: none;
+  }
+
+  /* --- Domains and indicators --- */
+
+  /* A domain is read as one thing, and its subtotal has to be attached to the
+     five indicators it counts, so the block never splits. Keeping the six
+     blocks whole costs no pages: the content runs to 3.2 pages either way. */
+  .sa-page .sa-domain {
+    margin: 0 0 0.24in;
+    break-inside: avoid;
+  }
+
+  .sa-page .sa-domain legend {
+    font-size: 11.5pt;
+    break-after: avoid;
+  }
+
+  .sa-page .sa-domain__q {
+    margin: 0.02in 0 0.07in;
+    color: #333;
+    font-size: 9pt;
+    break-after: avoid;
+  }
+
+  .sa-page .sa-list { border-top: 1pt solid #000; }
+
+  .sa-page .sa-item {
+    border-bottom: 0.4pt solid #999;
+    break-inside: avoid;
+  }
+
+  .sa-page .sa-item > label {
+    grid-template-columns: 0.2in 0.33in minmax(0, 1fr);
+    gap: 0 0.06in;
+    padding: 0.055in 0;
+  }
+
+  .sa-page .sa-item.is-yes { background: none; }
+
+  .sa-page .sa-item__code {
+    padding-top: 0;
+    color: #000;
+    font-size: 8.5pt;
+  }
+
+  .sa-page .sa-item__text { font-size: 9.8pt; }
+
+  .sa-page .sa-item__scp {
+    padding-bottom: 0.055in;
+    color: #444;
+    font-size: 7.5pt;
+  }
+
+  /* A tick drawn with a background colour disappears when the reader prints
+     with background graphics off, and again on a mono laser. Draw the box and
+     the tick with borders: borders are foreground and always print. */
+  .sa-page .sa-item input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    position: relative;
+    width: 9.5pt;
+    height: 9.5pt;
+    margin: 1.5pt 0 0;
+    padding: 0;
+    background: none;
+    border: 0.75pt solid #000;
+    border-radius: 0;
+  }
+
+  .sa-page .sa-item input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 1.4pt;
+    top: 0.2pt;
+    width: 3pt;
+    height: 6.2pt;
+    border: solid #000;
+    border-width: 0 1.5pt 1.5pt 0;
+    transform: rotate(40deg);
+  }
+
+  .sa-page .sa-subtotal {
+    margin: 0.05in 0 0;
+    color: #000;
+    font-size: 8pt;
+    text-align: right;
+  }
+
+  .sa-page .sa-subtotal strong { color: #000; font-size: 10.5pt; }
+
+  /* --- Score --- */
+
+  .sa-page .sa-results {
+    max-width: none;
+    margin: 0;
+    padding-top: 0.14in;
+    border-top: 1.5pt solid #000;
+  }
+
+  .sa-page .sa-results h2 {
+    margin: 0 0 0.1in;
+    font-size: 13pt;
+  }
+
+  /* The two h3s here inherit different families on screen (one serif, one
+     sans); on a form they are both section labels, so make them match. */
+  .sa-page .sa-results h3 {
+    margin: 0.2in 0 0.07in;
+    font-family: var(--sans);
+    font-size: 8pt;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    break-after: avoid;
+  }
+
+  .sa-page .sa-table {
+    font-size: 9.5pt;
+    break-inside: avoid;
+  }
+
+  /* The subtotals are the record's payload; the reading advice follows them. */
+  .sa-page .sa-table__caption {
+    caption-side: bottom;
+    margin: 0.07in 0 0;
+    color: #333;
+    font-size: 8pt;
+  }
+
+  .sa-page .sa-table th,
+  .sa-page .sa-table td {
+    padding: 0.04in 0.08in;
+    border-bottom: 0.4pt solid #999;
+  }
+
+  .sa-page .sa-table thead th {
+    border-bottom: 1pt solid #000;
+    color: #000;
+    font-size: 7pt;
+  }
+
+  .sa-page .sa-table tbody th { font-size: 9.5pt; }
+
+  .sa-page .sa-table tfoot th,
+  .sa-page .sa-table tfoot td {
+    border-top: 1pt solid #000;
+    color: #000;
+    font-size: 11.5pt;
+  }
+
+  /* Printing all four bands leaves the reader to work out which one is theirs.
+     Only the achieved band belongs on the record. The :has() guard keeps the
+     hand-scoring path intact: with scripting off nothing carries .is-current,
+     and all four bands print, which is what a blank form needs. */
+  .sa-page .sa-bands:has(.is-current) .sa-band:not(.is-current) { display: none; }
+
+  .sa-page .sa-band {
+    margin: 0 0 0.08in;
+    padding: 0.09in 0.12in;
+    background: none;
+    border: 0.75pt solid #000;
+    border-left: 3pt solid #000;
+    color: #000;
+    font-size: 9.5pt;
+    break-inside: avoid;
+  }
+
+  .sa-page .sa-band__head { margin-bottom: 0.03in; }
+
+  /* Beats .sa-band.is-current .sa-band__score, which is accent-coloured. */
+  .sa-page .sa-band.is-current .sa-band__score { color: #000; }
+
+  /* --- Fine print at the foot --- */
+
+  .sa-page main > .prose {
+    max-width: none;
+    margin-top: 0.2in;
+  }
+
+  .sa-page .sa-scoring,
+  .sa-page .sa-scp-note {
+    margin: 0 0 0.1in;
+    color: #222;
+    font-size: 8.5pt;
+  }
+
+  .sa-page .scope {
+    margin: 0 0 0.1in;
+    padding: 0.08in 0.11in;
+    border: 0.5pt solid #666;
+    color: #000;
+    font-size: 8.5pt;
+    break-inside: avoid;
+  }
+
+  .sa-page .scope h3 {
+    margin: 0 0 0.02in;
+    color: #000;
+    font-size: 7pt;
+  }
+
+  .sa-page .cite {
+    margin: 0;
+    padding: 0.08in 0.11in;
+    border: 0.5pt solid #999;
+    border-left: 2pt solid #000;
+    color: #000;
+    font-size: 8.5pt;
+    break-inside: avoid;
+  }
+
+  .sa-page .cite strong { color: #000; font-size: 7pt; }
+
+  .sa-page .disclaimer {
+    margin-top: 0.14in;
+    padding-top: 0.08in;
+    border-top: 0.5pt solid #999;
+    color: #222;
+    font-size: 8pt;
   }
 }

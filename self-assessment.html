@@ -35,7 +35,9 @@
     </script>
   -->
 </head>
-<body>
+<!-- .sa-page scopes the print rules that turn this page into a completed
+     record; every one of them lives inside @media print in style.css. -->
+<body class="sa-page">
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
@@ -70,16 +72,23 @@
       <p><strong>Everything on this page stays in your browser.</strong> There is no registration and no data collection: your answers are never submitted, saved, or transmitted anywhere, and no one — including me — can see them. Close the tab and they are gone. Use <em>Print / save as PDF</em> below to keep your results.</p>
     </div>
 
+    <!--
+      .sa-guide marks the paragraphs that tell a team how to run the exercise.
+      They are hidden in print: on a finished record they are spent
+      instructions. The scoring rule and the scope note are not marked, because
+      a later reader of the record needs to know what a tick meant and what the
+      score does not claim.
+    -->
     <div class="prose">
       <h2>How this works</h2>
 
-      <p><strong>A benchmark, not a compliance check.</strong> No U.S. nonprofit is bound by the international standard, and completing this assessment does not make an organization &ldquo;compliant&rdquo; with it — nor does a low score mean any rule has been broken. Because no U.S. baseline exists, the assessment simply measures readiness against the most developed benchmark available, as decomposed and adapted for U.S. organizations in the Project&rsquo;s research. The score shows how much of a complete protection system is in place — nothing more, nothing less.</p>
+      <p class="sa-guide"><strong>A benchmark, not a compliance check.</strong> No U.S. nonprofit is bound by the international standard, and completing this assessment does not make an organization &ldquo;compliant&rdquo; with it — nor does a low score mean any rule has been broken. Because no U.S. baseline exists, the assessment simply measures readiness against the most developed benchmark available, as decomposed and adapted for U.S. organizations in the Project&rsquo;s research. The score shows how much of a complete protection system is in place — nothing more, nothing less.</p>
 
-      <p><strong>Who completes it.</strong> Your own team — no outside consultant, no facilitator, no cost. It works best when two or three people complete it together: someone who knows day-to-day program operations, someone who knows hiring and volunteer management, and a board member or executive.</p>
+      <p class="sa-guide"><strong>Who completes it.</strong> Your own team — no outside consultant, no facilitator, no cost. It works best when two or three people complete it together: someone who knows day-to-day program operations, someone who knows hiring and volunteer management, and a board member or executive.</p>
 
-      <p><strong>How to score.</strong> For each of the 30 indicators, mark Yes (1 point) only if the statement is true now and you could show evidence of it — a document, a record, a dated log. Leave it unmarked (0 points) if it is partly true, planned, informal, or undocumented. Being strict is the point: a generous score hides exactly the gaps this tool exists to find.</p>
+      <p class="sa-scoring"><strong>How to score.</strong> For each of the 30 indicators, mark Yes (1 point) only if the statement is true now and you could show evidence of it — a document, a record, a dated log. Leave it unmarked (0 points) if it is partly true, planned, informal, or undocumented. Being strict is the point: a generous score hides exactly the gaps this tool exists to find.</p>
 
-      <p><strong>Time required.</strong> About one hour. The six domain subtotals and your total out of 30 are calculated as you go.</p>
+      <p class="sa-guide"><strong>Time required.</strong> About one hour. The six domain subtotals and your total out of 30 are calculated as you go.</p>
 
       <div class="scope">
         <h3>Scope note</h3>
@@ -96,12 +105,19 @@
     </noscript>
 
     <form id="sa-form" class="sa">
+      <!--
+        Each field carries a print-only twin. A text input shows one line and
+        scrolls the rest out of sight, so a long "Completed by" printed as a
+        truncated fragment; the twin holds the same value as wrapping text and
+        replaces the input on paper. self-assessment.js copies the value across
+        in memory as you type — nothing is stored or sent.
+      -->
       <fieldset class="sa-record">
         <legend>Your record</legend>
         <div class="sa-record__grid">
-          <label>Organization <input type="text" name="org" autocomplete="organization"></label>
-          <label>Date completed <input type="text" name="date" placeholder="e.g. 12 September 2026"></label>
-          <label>Completed by <input type="text" name="by" placeholder="Names and roles"></label>
+          <label>Organization <input type="text" name="org" autocomplete="organization"><span class="sa-record__print" data-print-for="org" aria-hidden="true"></span></label>
+          <label>Date completed <input type="text" name="date" placeholder="e.g. 12 September 2026"><span class="sa-record__print" data-print-for="date" aria-hidden="true"></span></label>
+          <label>Completed by <input type="text" name="by" placeholder="Names and roles"><span class="sa-record__print" data-print-for="by" aria-hidden="true"></span></label>
         </div>
       </fieldset>
 

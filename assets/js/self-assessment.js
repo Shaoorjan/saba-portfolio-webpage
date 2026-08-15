@@ -6,6 +6,11 @@
    analytics events, no query-string round-trips. The page tells users their
    answers stay in the browser, and that claim has to stay literally true.
    Scores live in memory only and are gone when the tab closes.
+
+   The record-field mirroring below is the same deal: it copies what the user
+   typed into a sibling element in the live DOM so that print can show the whole
+   value instead of the one clipped line an <input> displays. Nothing leaves the
+   page, and nothing survives the tab.
    ============================================================================= */
 
 (function () {
@@ -71,9 +76,27 @@
     if (bandLabel) bandLabel.textContent = band.label;
   }
 
+  // A text input renders one line and scrolls the overflow out of view, so a
+  // long "Completed by" printed as a fragment. Each field has a print-only twin
+  // that carries the same text and wraps; keep the two in step.
+  var mirrors = form.querySelectorAll('[data-print-for]');
+
+  function mirrorRecord() {
+    Array.prototype.forEach.call(mirrors, function (el) {
+      var field = form.elements[el.getAttribute('data-print-for')];
+      el.textContent = field ? field.value : '';
+    });
+  }
+
   form.addEventListener('change', function (event) {
     if (event.target && event.target.type === 'checkbox') update();
   });
+
+  form.addEventListener('input', mirrorRecord);
+
+  // Belt and braces for values that arrive without an input event, such as
+  // browser autofill restored on a back-navigation.
+  window.addEventListener('beforeprint', mirrorRecord);
 
   var printBtn = document.getElementById('sa-print');
   if (printBtn) {
@@ -89,6 +112,7 @@
       if (answered && !window.confirm('Clear all ' + answered + ' marked indicators and the record fields?')) return;
       form.reset();
       update();
+      mirrorRecord();
       var top = document.getElementById('main');
       if (top) top.scrollIntoView({ block: 'start' });
     });
@@ -98,4 +122,5 @@
   if (bar) bar.hidden = false;
 
   update();
+  mirrorRecord();
 })();
