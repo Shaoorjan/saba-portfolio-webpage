@@ -1,5 +1,5 @@
 /* ==========================================================================
-   sabagul.com — personal scholarly site
+   Saba Gul — personal scholarly site
    One stylesheet. No frameworks, no external fonts, no third-party assets.
    Light-only by design: pages must print and screenshot identically for the
    evidence record (Part 7 of the strategy document).
@@ -26,6 +26,23 @@
   --accent: #0f4c5c;
   --accent-dark: #0a3743;
 
+  /* Three section hues, each ≥5.5:1 on the page background. Teal is the site
+     identity (masthead, footer, home); clay carries the toolkit and the
+     self-assessment; olive carries the project. --hue is what components read,
+     so a body theme class recolors a whole page without touching components. */
+  --clay: #8a4632;
+  --clay-dark: #6d3626;
+  --olive: #45592f;
+  --olive-dark: #364724;
+
+  --hue: var(--accent);
+  --hue-dark: var(--accent-dark);
+  --hue-wash: #eef4f5;
+
+  --tint-teal: #f0f6f7;
+  --tint-clay: #fbf4f1;
+  --tint-olive: #f4f7ef;
+
   /* --measure equals --page minus the 3rem of side padding, so text, bands,
      header, and footer all share one left edge and one right edge. */
   --page: 50rem;
@@ -43,8 +60,15 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Flex column so the footer sits at the bottom of the viewport on short pages
+   (Contact, 404) instead of floating mid-screen with page background beneath it.
+   Disabled in print, where it would interfere with pagination. */
 body {
   margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
   background: var(--bg);
   color: var(--text);
   font-family: var(--sans);
@@ -53,6 +77,10 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
+
+/* Page theming: components read --hue, so one class recolors a page. */
+body.theme-toolkit { --hue: var(--clay); --hue-dark: var(--clay-dark); --hue-wash: var(--tint-clay); }
+body.theme-project { --hue: var(--olive); --hue-dark: var(--olive-dark); --hue-wash: var(--tint-olive); }
 
 img { max-width: 100%; height: auto; }
 
@@ -89,7 +117,7 @@ hr {
 blockquote {
   margin: 1.5rem 0;
   padding: 0 0 0 1.25rem;
-  border-left: 3px solid var(--accent);
+  border-left: 3px solid var(--hue);
   color: var(--ink);
   font-family: var(--serif);
   font-size: 1.125rem;
@@ -144,7 +172,7 @@ blockquote {
   width: 2.25rem;
   height: 3px;
   margin-bottom: 0.9rem;
-  background: var(--accent);
+  background: var(--hue);
 }
 
 .prose h3 {
@@ -175,26 +203,29 @@ blockquote {
 
 /* --- Header ------------------------------------------------------------- */
 
-/* Two-tier masthead: name and role, then the nav row below a hairline. */
+/* Centered title block, the way a journal or monograph opens: name, role in
+   italic serif, a short rule, then the nav. The previous version stacked
+   everything flush left and closed on a blunt 2px slab. */
 .site-header {
   background: var(--bg);
-  border-top: 4px solid var(--accent);
-  border-bottom: 2px solid var(--deep);
+  border-top: 3px solid var(--accent);
+  border-bottom: 1px solid var(--line-strong);
 }
 
 .site-header__inner {
   max-width: var(--page);
   margin: 0 auto;
-  padding: 2.15rem 1.5rem 0.9rem;
+  padding: 2.7rem 1.5rem 1.15rem;
+  text-align: center;
 }
 
 .wordmark {
-  display: block;
+  display: inline-block;
   color: var(--ink);
   font-family: var(--serif);
-  font-size: clamp(1.65rem, 3.4vw, 1.95rem);
-  line-height: 1.15;
-  letter-spacing: 0.005em;
+  font-size: clamp(1.9rem, 4vw, 2.45rem);
+  line-height: 1.12;
+  letter-spacing: 0.035em;
   text-decoration: none;
 }
 
@@ -202,26 +233,34 @@ blockquote {
 
 .wordmark__role {
   display: block;
-  max-width: 34rem;
-  margin-top: 0.5rem;
+  max-width: 32rem;
+  margin: 0.6rem auto 0;
   color: var(--muted);
-  font-family: var(--sans);
-  font-size: 0.95rem;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-style: italic;
   font-weight: 400;
-  line-height: 1.45;
-  letter-spacing: 0;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
 }
 
-.nav {
-  margin-top: 1.25rem;
-  padding-top: 0.85rem;
-  border-top: 1px solid var(--line);
+/* Short centered rule instead of a full-width border: it divides the title
+   block from the nav without drawing a box around the header. Sits on .nav so
+   it falls between the two, not after both. */
+.nav::before {
+  content: "";
+  display: block;
+  width: 2.75rem;
+  height: 2px;
+  margin: 1.5rem auto 1.25rem;
+  background: var(--accent);
 }
 
 .nav ul {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.2rem 1.55rem;
+  justify-content: center;
+  gap: 0.35rem 1.7rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -250,6 +289,8 @@ blockquote {
 /* --- Main --------------------------------------------------------------- */
 
 main {
+  flex: 1 0 auto;      /* pushes the footer to the bottom on short pages */
+  width: 100%;
   max-width: var(--page);
   margin: 0 auto;
   padding: 3.75rem 1.5rem 4.75rem;
@@ -292,23 +333,37 @@ main {
   list-style: none;
 }
 
+/* Each card carries its own hue: teal for research, clay for the toolkit, olive
+   for the project — the same hues those sections use on their own pages. */
 .card {
   display: flex;
   flex-direction: column;
-  background: var(--white);
+  background: var(--card-tint, var(--white));
   border: 1px solid var(--line);
-  border-top: 3px solid var(--accent);
-  padding: 1.5rem 1.4rem 1.35rem;
+  border-top: 3px solid var(--card-hue, var(--accent));
+  padding: 1.4rem 1.4rem 1.35rem;
+}
+
+.card--research { --card-hue: var(--accent); --card-tint: var(--tint-teal); }
+.card--toolkit  { --card-hue: var(--clay);   --card-tint: var(--tint-clay); }
+.card--project  { --card-hue: var(--olive);  --card-tint: var(--tint-olive); }
+
+.card__icon {
+  display: block;
+  width: 2.3rem;
+  height: 2.3rem;
+  margin-bottom: 1rem;
+  color: var(--card-hue, var(--accent));
 }
 
 .card h2 {
-  margin: 0 0 0.7rem;
+  margin: 0 0 0.6rem;
   font-family: var(--sans);
   font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--card-hue, var(--accent));
 }
 
 .card p {
@@ -318,6 +373,7 @@ main {
 }
 
 .arrow {
+  color: var(--card-hue, var(--hue));
   font-size: 0.93rem;
   font-weight: 600;
   text-decoration: none;
@@ -325,7 +381,7 @@ main {
   padding-bottom: 1px;
 }
 
-.arrow:hover { border-bottom-color: var(--accent); }
+.arrow:hover { border-bottom-color: var(--card-hue, var(--hue)); }
 
 /* --- Updates ------------------------------------------------------------ */
 
@@ -398,7 +454,7 @@ main {
 
 .pub__meta {
   margin: 0 0 1rem;
-  color: var(--accent);
+  color: var(--hue);
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.01em;
@@ -426,7 +482,7 @@ main {
 .cite strong {
   display: block;
   margin-bottom: 0.2rem;
-  color: var(--accent);
+  color: var(--hue);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.11em;
@@ -456,7 +512,7 @@ main {
   font-weight: 700;
   letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--hue);
 }
 
 .scope p:last-child { margin-bottom: 0; }
@@ -500,7 +556,7 @@ main {
   padding: 1.25rem 1.4rem !important;
   background: var(--white);
   border: 1px solid var(--line-strong) !important;
-  border-top: 3px solid var(--accent) !important;
+  border-top: 3px solid var(--hue) !important;
 }
 
 .sa-record legend {
@@ -511,7 +567,7 @@ main {
   font-weight: 700;
   letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--hue);
 }
 
 .sa-record__grid {
@@ -586,7 +642,7 @@ main {
 }
 
 .sa-item__code {
-  color: var(--accent);
+  color: var(--hue);
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.03em;
@@ -604,7 +660,10 @@ main {
   white-space: nowrap;
 }
 
-.sa-item.is-yes { background: rgba(15, 76, 92, 0.045); }
+.sa-item.is-yes {
+  background: rgba(15, 76, 92, 0.045);
+  background: color-mix(in srgb, var(--hue) 5%, transparent);
+}
 
 .sa-item.is-yes .sa-item__text { color: var(--ink); }
 
@@ -618,7 +677,7 @@ main {
 }
 
 .sa-subtotal strong {
-  color: var(--accent);
+  color: var(--hue);
   font-size: 1rem;
   letter-spacing: 0;
 }
@@ -629,7 +688,7 @@ main {
   max-width: var(--measure);
   margin-top: 1rem;
   padding-top: 2rem;
-  border-top: 4px solid var(--accent);
+  border-top: 4px solid var(--hue);
 }
 
 .sa-results h2 { margin: 0 0 1.25rem; font-size: 1.6rem; }
@@ -714,7 +773,7 @@ main {
 
 .sa-band.is-current {
   background: var(--white);
-  border-left-color: var(--accent);
+  border-left-color: var(--hue);
   border-top: 1px solid var(--line-strong);
   border-right: 1px solid var(--line-strong);
   border-bottom: 1px solid var(--line-strong);
@@ -758,7 +817,7 @@ main {
   bottom: 0;
   z-index: 5;
   background: var(--deep);
-  border-top: 3px solid var(--accent);
+  border-top: 3px solid var(--hue);
 }
 
 .sa-bar__inner {
@@ -795,7 +854,7 @@ main {
 
 .tool__num {
   flex: 0 0 auto;
-  color: var(--accent);
+  color: var(--hue);
   font-family: var(--serif);
   font-size: 2.25rem;
   line-height: 1;
@@ -841,8 +900,8 @@ main {
   max-width: var(--measure);
   margin: 2rem 0 0;
   padding: 1.1rem 1.3rem;
-  background: var(--surface);
-  border-left: 4px solid var(--accent);
+  background: var(--hue-wash);
+  border-left: 4px solid var(--hue);
   font-size: 0.97rem;
 }
 
@@ -896,7 +955,7 @@ main {
   padding: 1.25rem 1.4rem;
   background: var(--surface);
   border: 1px solid var(--line-strong);
-  border-left: 4px solid var(--accent);
+  border-left: 4px solid var(--hue);
   font-size: 0.97rem;
 }
 
@@ -907,7 +966,7 @@ main {
   font-weight: 700;
   letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--hue);
 }
 
 .credentials p:last-child { margin-bottom: 0; }
@@ -920,7 +979,7 @@ main {
   padding: 1.4rem 1.5rem;
   background: var(--white);
   border: 1px solid var(--line-strong);
-  border-top: 3px solid var(--accent);
+  border-top: 3px solid var(--hue);
 }
 
 .contact-details dl {
@@ -937,7 +996,7 @@ main {
 }
 
 .contact-details dt {
-  color: var(--accent);
+  color: var(--hue);
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -993,7 +1052,11 @@ main {
 
   :root { --bg: #fff; --surface: #fff; --white: #fff; }
 
+  /* The screen layout makes body a flex column to pin the footer down; in print
+     that fights pagination, so it goes back to normal flow. */
   body {
+    display: block;
+    min-height: 0;
     background: #fff;
     color: #000;
     font-size: 10.5pt;
@@ -1008,6 +1071,12 @@ main {
     border-top: 2px solid #333;
     border-bottom: 1px solid #999;
   }
+
+  .site-header__inner { text-align: left; padding-bottom: 0.6rem; }
+
+  .wordmark { font-size: 15pt; letter-spacing: 0.01em; }
+
+  .wordmark__role { margin-left: 0; font-size: 9.5pt; }
 
   .site-footer {
     background: #fff;
