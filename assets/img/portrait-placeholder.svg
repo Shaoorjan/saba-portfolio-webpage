@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="Portrait placeholder">
+  <rect width="800" height="800" fill="#f5f3ef"/>
+  <circle cx="400" cy="300" r="96" fill="#e3dfd8"/>
+  <path d="M230 660c0-104 76-188 170-188s170 84 170 188z" fill="#e3dfd8"/>
+  <text x="400" y="736" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif" font-size="32" fill="#a49c90">
+    Photo to come
+  </text>
+</svg>
