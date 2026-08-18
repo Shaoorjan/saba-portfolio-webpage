@@ -24,6 +24,7 @@ disk as well as hosted.
 | `404.html` | Not-found page |
 | `assets/css/style.css` | The entire design system |
 | `assets/js/self-assessment.js` | Scoring for the self-assessment (nothing else) |
+| `assets/docs/` | Draft Word documents linked from the Toolkit page's "pending Zenodo republication" section — not archived on Zenodo yet |
 
 ## The self-assessment page
 
