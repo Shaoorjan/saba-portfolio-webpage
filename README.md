@@ -4,7 +4,7 @@ The personal site of Saba Gul, independent researcher in organizational
 safeguarding and PSEAH: open-access research and free tools for U.S. nonprofit
 organizations.
 
-**Live at:** https://shaoorjan.github.io/saba-portfolio-webpage/
+**Live at:** https://pseacrosswalk.org/ (falls back to https://shaoorjan.github.io/saba-portfolio-webpage/)
 
 ## What's here
 
@@ -57,12 +57,12 @@ Two things that break hand-edited HTML:
 Jekyll. All paths are relative, so the site works from a project subpath as well
 as from a domain root.
 
-For a custom domain later: **Settings → Pages → Custom domain**, then update
-`<link rel="canonical">` and `og:url` on all seven pages plus `sitemap.xml` and
-`robots.txt` (search the source for `github.io`). GitHub writes the `CNAME` file
-itself — don't add one by hand. Note that `robots.txt` only takes effect at a
-domain root, so it is inert while the site is served from a project subpath;
-submit `sitemap.xml` directly in Google Search Console either way.
+**Custom domain:** live at `pseacrosswalk.org` via GitHub Pages (Settings →
+Pages → Custom domain). DNS is on GoDaddy: four `A` records on `@` pointing at
+GitHub's four Pages IPs, plus a `CNAME` on `www` → `shaoorjan.github.io`. GitHub
+writes the `CNAME` file in this repo itself — don't add or edit it by hand.
+`robots.txt` and `sitemap.xml` point at `pseacrosswalk.org`; resubmit the sitemap
+in Google Search Console if the domain ever changes again.
 
 ## License
 
