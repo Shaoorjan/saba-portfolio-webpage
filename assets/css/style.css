@@ -157,11 +157,16 @@ blockquote {
   text-transform: uppercase;
 }
 
+/* Title + subtitle pairing. Deliberately not --muted: at hero size, a
+   subtitle that light next to a near-black heading read as disconnected
+   rather than secondary. This sits between --text and --muted, sized and
+   weighted closer to the heading so the two read as one unit. */
 .lede {
-  max-width: 34rem;
-  color: var(--muted);
-  font-size: 1.22rem;
-  line-height: 1.5;
+  max-width: 36rem;
+  color: #3a4149;
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 1.45;
 }
 
 .prose { max-width: var(--measure); }
@@ -365,7 +370,7 @@ main {
 }
 
 .page-head h1 {
-  margin: 0 0 0.85rem;
+  margin: 0 0 1rem;
   font-size: clamp(1.7rem, 3.2vw, 2.15rem);
   line-height: 1.2;
 }
@@ -376,7 +381,7 @@ main {
 }
 
 .hero h1 {
-  margin: 0 0 1rem;
+  margin: 0 0 1.2rem;
   font-size: clamp(1.85rem, 3.6vw, 2.5rem);
   line-height: 1.18;
 }
