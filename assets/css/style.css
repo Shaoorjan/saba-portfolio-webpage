@@ -12,36 +12,42 @@
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  --bg: #faf8f4;
-  --surface: #efece4;
+  --bg: #ffffff;
+  --surface: #f3f6f9;
   --white: #ffffff;
-  --deep: #14282f;          /* dark band: footer, top rule */
-  --deep-text: #cfd9dd;
-  --deep-link: #a7d3de;
-  --ink: #0d1116;
-  --text: #1f252c;
-  --muted: #545d68;
-  --line: #d9d4c9;
-  --line-strong: #b4ab9c;
-  --accent: #0f4c5c;
-  --accent-dark: #0a3743;
+  --deep: #0e1c2b;          /* dark band: footer, top rule */
+  --deep-text: #cdd9e3;
+  --deep-link: #9fc6e8;
+  --ink: #101820;
+  --text: #1c2733;
+  --muted: #4c5b6b;
+  --line: #d8e0e8;
+  --line-strong: #aebccc;
+  --accent: #1b4d8e;
+  --accent-dark: #123a6c;
+  --gold: #b8860b;
+  --gold-dark: #96700a;
 
-  /* Three section hues, each ≥5.5:1 on the page background. Teal is the site
-     identity (masthead, footer, home); clay carries the toolkit and the
-     self-assessment; olive carries the project. --hue is what components read,
-     so a body theme class recolors a whole page without touching components. */
-  --clay: #8a4632;
-  --clay-dark: #6d3626;
-  --olive: #45592f;
-  --olive-dark: #364724;
+  /* Grounded, not arbitrary: blue is the official color of Child Abuse
+     Prevention Month (the pinwheel campaign) — directly on-subject for a
+     safeguarding site — and navy + neutral gray + a small gold accent is
+     the standard recommendation for legal/nonprofit trust-building sites.
+     One accent, used identically everywhere (not a different hue per
+     page/card) per the "standard, consistent palette" direction — clay/
+     olive stay defined, since theme-toolkit/theme-project still set --hue
+     from them, but both now resolve to the same accent as everything else. */
+  --clay: var(--accent);
+  --clay-dark: var(--accent-dark);
+  --olive: var(--accent);
+  --olive-dark: var(--accent-dark);
 
   --hue: var(--accent);
   --hue-dark: var(--accent-dark);
-  --hue-wash: #eef4f5;
+  --hue-wash: #eef3f9;
 
-  --tint-teal: #f0f6f7;
-  --tint-clay: #fbf4f1;
-  --tint-olive: #f4f7ef;
+  --tint-teal: var(--hue-wash);
+  --tint-clay: var(--hue-wash);
+  --tint-olive: var(--hue-wash);
 
   /* --measure equals --page minus the 3rem of side padding, so text, bands,
      header, and footer all share one left edge and one right edge. */
@@ -78,7 +84,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--sans);
-  font-size: 1.125rem;
+  font-size: 1.0625rem;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -157,16 +163,18 @@ blockquote {
   text-transform: uppercase;
 }
 
-/* Title + subtitle pairing. Deliberately not --muted: at hero size, a
-   subtitle that light next to a near-black heading read as disconnected
-   rather than secondary. This sits between --text and --muted, sized and
-   weighted closer to the heading so the two read as one unit. */
+/* Title + subtitle pairing. Colored (accent blue) and bold rather than a
+   muted gray, so it reads as a distinct second voice under the headline —
+   but sized to ~55-60% of the H1 it sits under, and not much bigger, or a
+   bold colored line out-competes a lighter-weight, black headline instead
+   of reading as clearly secondary. */
 .lede {
-  max-width: 36rem;
-  color: #3a4149;
-  font-size: 1.3rem;
-  font-weight: 500;
-  line-height: 1.45;
+  max-width: 30rem;
+  margin: 0 0 1.1rem;
+  color: var(--accent);
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.5;
 }
 
 .prose { max-width: var(--measure); }
@@ -254,7 +262,7 @@ blockquote {
 .nav::before {
   content: "";
   display: block;
-  width: 2.25rem;
+  width: 2rem;
   height: 2px;
   margin: 0.85rem auto 0.75rem;
   background: var(--accent);
@@ -302,18 +310,29 @@ main {
 
 /* --- On-page table of contents ------------------------------------------
    Opt-in per page via <main class="has-toc"> plus a <nav class="toc"> as
-   main's last child. Widens the page at a wide breakpoint only, so the
-   sidebar never squeezes the reading column — below that breakpoint the
-   sidebar is hidden outright and the page is the plain single column.
+   main's last child. The content column's LEFT edge is pinned to exactly
+   where a normal centered --page box would sit (the same x-position as
+   the header above it) via an explicit margin-left, instead of the old
+   approach of widening main and centering that wider box — which shifted
+   the whole reading column left relative to the header. The box only
+   grows rightward, into what would otherwise be blank margin, to fit the
+   TOC as a normal (sticky-able) grid child. Below the breakpoint there
+   isn't enough side margin to hold it, so it's hidden outright and the
+   page is the plain single column.
    Deliberately no JavaScript: a plain anchor list, no scroll-spy. */
 .toc { display: none; }
 
-@media (min-width: 74rem) {
-  main.has-toc { max-width: var(--page-wide); }
+@media (min-width: 84rem) {
+  main.has-toc {
+    max-width: none;
+    width: calc(var(--page) + 3rem + var(--toc-width));
+    margin-left: calc((100vw - var(--page)) / 2);
+    margin-right: 0;
+  }
 
   main.has-toc {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) var(--toc-width);
+    grid-template-columns: minmax(0, var(--page)) var(--toc-width);
     column-gap: 3rem;
   }
 
@@ -363,32 +382,101 @@ main {
 
 /* H1 containers are wider than the --measure body-text column: a headline
    reads fine wider than a paragraph, and the extra width is what lets
-   shorter titles land on one line instead of wrapping after two words. */
+   shorter titles land on one line instead of wrapping after two words.
+   Sizes here run smaller than a typical page H1 — at the old size these
+   ran to 3-4 lines; a wider column plus a smaller cap gets most titles
+   to 1-2 lines instead. */
 .page-head {
-  max-width: var(--page);
+  max-width: 46rem;
   margin-bottom: 2.5rem;
 }
 
 .page-head h1 {
   margin: 0 0 1rem;
-  font-size: clamp(1.7rem, 3.2vw, 2.15rem);
-  line-height: 1.2;
+  font-size: clamp(1.55rem, 2.3vw, 1.9rem);
+  line-height: 1.24;
+}
+
+.hero-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2.25rem;
+  align-items: center;
+  margin-bottom: 3.75rem;
+}
+
+@media (min-width: 56rem) {
+  .hero-row { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); }
 }
 
 .hero {
-  max-width: var(--page);
-  margin-bottom: 3rem;
+  max-width: 40rem;
+  margin-bottom: 0;
+}
+
+.hero__kicker {
+  display: block;
+  margin: 0 0 0.9rem;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .hero h1 {
-  margin: 0 0 1.2rem;
-  font-size: clamp(1.85rem, 3.6vw, 2.5rem);
-  line-height: 1.18;
+  margin: 0 0 1rem;
+  font-size: clamp(1.65rem, 2.5vw, 2.05rem);
+  line-height: 1.22;
+  letter-spacing: -0.006em;
 }
 
+/* Long-form reading copy stays close to full-strength ink, not the muted
+   tone reserved for secondary/meta text — this site is mostly reading. */
 .hero__intro {
-  margin-top: 1.85rem;
-  font-size: 1.125rem;
+  max-width: 30rem;
+  margin-top: 0;
+  color: var(--text);
+  font-size: 1.03rem;
+}
+
+.hero__actions {
+  display: flex;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.hero__btn {
+  display: inline-block;
+  padding: 0.65rem 1.2rem;
+  border-radius: 6px;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.hero__btn--primary { background: var(--accent-dark); color: #fff; }
+.hero__btn--primary:hover { background: var(--ink); }
+
+/* A transparent fill + faint border nearly disappears against a white
+   page — white fill + a full-strength border reads as a button at a
+   glance instead. */
+.hero__btn--ghost {
+  background: var(--white);
+  color: var(--accent-dark);
+  border: 1.5px solid var(--accent-dark);
+}
+
+.hero__btn--ghost:hover { background: var(--hue-wash); }
+
+.hero__photo { aspect-ratio: 4 / 5; }
+
+@media (min-width: 56rem) {
+  .hero__photo { height: 100%; min-height: 22rem; aspect-ratio: auto; }
 }
 
 /* --- Cards -------------------------------------------------------------- */
@@ -396,34 +484,34 @@ main {
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-  gap: 1.15rem;
-  margin: 0 0 3.75rem;
+  gap: 1.25rem;
+  margin: 0 0 3.5rem;
   padding: 0;
   list-style: none;
 }
 
-/* Each card carries its own hue: teal for research, clay for the toolkit, olive
-   for the project — the same hues those sections use on their own pages. */
+/* One consistent accent everywhere (not a different hue per card) — see
+   the token-block note above. Each card's identity now comes from its
+   card__photo abstract mark (a .ph--a/b/c/d/e variant, set in the markup),
+   not from a per-card color. */
 .card {
   display: flex;
   flex-direction: column;
-  background: var(--card-tint, var(--white));
   border: 1px solid var(--line);
-  border-top: 3px solid var(--card-hue, var(--accent));
-  padding: 1.4rem 1.4rem 1.35rem;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(20, 25, 20, 0.05);
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
 }
 
-.card--research { --card-hue: var(--accent); --card-tint: var(--tint-teal); }
-.card--toolkit  { --card-hue: var(--clay);   --card-tint: var(--tint-clay); }
-.card--project  { --card-hue: var(--olive);  --card-tint: var(--tint-olive); }
+.card:hover { transform: translateY(-3px); box-shadow: 0 14px 24px rgba(20, 25, 20, 0.09); }
 
-.card__icon {
-  display: block;
-  width: 2.3rem;
-  height: 2.3rem;
-  margin-bottom: 1rem;
-  color: var(--card-hue, var(--accent));
-}
+.card__photo { height: 7rem; border-radius: 0; }
+
+.card__body { flex: 1 1 auto; display: flex; flex-direction: column; padding: 1.4rem 1.4rem 1.35rem; }
+
+/* The old inline SVG icons are superseded by the card__photo mark. */
+.card__icon { display: none; }
 
 .card h2 {
   margin: 0 0 0.6rem;
@@ -432,7 +520,7 @@ main {
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--card-hue, var(--accent));
+  color: var(--accent);
 }
 
 .card p {
@@ -442,22 +530,42 @@ main {
 }
 
 .arrow {
-  color: var(--card-hue, var(--hue));
+  position: relative;
+  color: var(--accent);
   font-size: 0.93rem;
   font-weight: 600;
   text-decoration: none;
-  border-bottom: 2px solid var(--line-strong);
-  padding-bottom: 1px;
+  border-bottom: none;
+  padding-bottom: 2px;
 }
 
-.arrow:hover { border-bottom-color: var(--card-hue, var(--hue)); }
+.arrow::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--line-strong);
+  transition: background 0.15s ease;
+}
+
+.arrow:hover::after { background: var(--gold); }
 
 /* --- Updates ------------------------------------------------------------ */
 
-/* Full container width so its right edge lines up with the card row above. */
+/* A shaded band instead of a hairline-topped list — gives the page a
+   second visual "zone" instead of running straight from the cards into
+   more plain-list content. */
 .updates {
-  border-top: 2px solid var(--line-strong);
-  padding-top: 1.6rem;
+  border-top: none;
+  margin: 0 -1.5rem -1px;
+  padding: 2rem 1.5rem 2.25rem;
+  background: var(--surface);
+}
+
+@media (min-width: 40rem) {
+  .updates { border-radius: 12px; margin: 0 0 1rem; }
 }
 
 .updates h2 {
@@ -481,7 +589,7 @@ main {
   grid-template-columns: 8.5rem minmax(0, 1fr);
   gap: 0 1rem;
   padding: 0.75rem 0;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--line-strong);
   font-size: 1rem;
 }
 
@@ -508,25 +616,25 @@ main {
   display: flex;
   gap: 1.35rem;
   max-width: var(--measure);
-  border-top: 2px solid var(--line-strong);
-  padding: 2.25rem 0 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1.6rem 1.7rem 1.5rem;
+  margin-bottom: 1.4rem;
+  box-shadow: 0 1px 3px rgba(20, 25, 20, 0.05);
 }
 
-.pub:first-of-type {
-  border-top: 0;
-  padding-top: 0;
-}
-
-.pub__num {
-  flex: 0 0 auto;
-  color: var(--hue);
-  font-family: var(--serif);
-  font-size: 2.25rem;
-  line-height: 1;
-  opacity: 0.7;
-}
+/* Superseded by .pub-mark, a small square abstract mark. */
+.pub__num { display: none; }
 
 .pub__body { flex: 1 1 auto; min-width: 0; }
+
+.pub-mark {
+  flex: 0 0 3.4rem;
+  width: 3.4rem;
+  height: 3.4rem;
+  margin-bottom: 1.1rem;
+  border-radius: 8px;
+}
 
 .pub h2 {
   margin: 0 0 0.6rem;
@@ -551,14 +659,11 @@ main {
 
 .pub__links li { margin-bottom: 0.35rem; }
 
-/* Deliberately not a boxed callout: a bordered, filled box here piles a third
-   or fourth distinct visual treatment onto an article that already has a
-   colored meta line and a placeholder highlight. A hairline top rule reads as
-   bibliographic detail, not another alert. */
 .cite {
   margin: 0.9rem 0 0;
-  padding-top: 0.8rem;
-  border-top: 1px solid var(--line);
+  padding: 0.9rem 1.1rem;
+  border-radius: 8px;
+  background: var(--surface);
   color: var(--muted);
   font-size: 0.85rem;
   line-height: 1.6;
@@ -566,7 +671,7 @@ main {
 
 .cite strong {
   margin-right: 0.4em;
-  color: var(--hue);
+  color: var(--accent);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.09em;
@@ -929,20 +1034,33 @@ main {
 /* --- Tools -------------------------------------------------------------- */
 
 .tool {
-  display: flex;
-  gap: 1.35rem;
   max-width: var(--measure);
-  border-top: 2px solid var(--line-strong);
-  padding: 2rem 0 1.25rem;
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1.4rem;
+  box-shadow: 0 1px 3px rgba(20, 25, 20, 0.05);
 }
+
+.tool__photo { height: 6rem; border-radius: 0; }
+
+.tool__inner { display: flex; gap: 1.2rem; padding: 1.5rem 1.5rem 1.4rem; }
 
 .tool__num {
   flex: 0 0 auto;
-  color: var(--hue);
-  font-family: var(--serif);
-  font-size: 2.25rem;
-  line-height: 1;
-  opacity: 0.7;
+  display: grid;
+  place-items: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  margin-top: 0.1rem;
+  border-radius: 50%;
+  background: var(--hue);
+  color: #fff;
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 700;
+  opacity: 1;
 }
 
 .tool__body { flex: 1 1 auto; }
@@ -986,10 +1104,77 @@ main {
   padding: 1.1rem 1.3rem;
   background: var(--hue-wash);
   border-left: 4px solid var(--hue);
+  border-radius: 10px;
   font-size: 0.97rem;
 }
 
 .note p:last-child { margin-bottom: 0; }
+
+/* --- Marks: a "crosswalk" motif, not decorative shapes ---------------------
+   Two node squares joined by a line — literally the site's own subject
+   (mapping one standard to another) rather than arbitrary abstract art.
+   Squares/rects read as diagrammatic and corporate; circles read playful,
+   which didn't fit a legal/compliance site. container-type:size + cqmin
+   keeps every element proportional to the SHORTER side of its own box
+   regardless of the box's aspect ratio, so nothing stretches into an odd
+   ellipse in a box that isn't square. Used for: the home hero photo slot,
+   each home card, each toolkit tool, the research publication marks, and
+   the about-page portrait slot. */
+.ph {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--hue-wash);
+  border: 1px solid var(--line);
+  container-type: size;
+}
+
+.ph__line {
+  position: absolute;
+  background: var(--line-strong);
+}
+
+.ph::before, .ph::after { content: ""; position: absolute; border-radius: 3px; }
+
+.ph--a .ph__line { top: 50%; left: 22cqmin; width: 56cqmin; height: 2px; }
+.ph--a::before { width: 15cqmin; height: 15cqmin; top: calc(50% - 7.5cqmin); left: 14cqmin; background: var(--accent); }
+.ph--a::after { width: 15cqmin; height: 15cqmin; top: calc(50% - 7.5cqmin); right: 14cqmin; border: 2.5px solid var(--gold); background: var(--white); }
+
+.ph--b .ph__line { top: 18cqmin; bottom: 18cqmin; left: 50%; width: 2px; height: auto; }
+.ph--b::before { width: 14cqmin; height: 14cqmin; top: 10cqmin; left: calc(50% - 7cqmin); border: 2.5px solid var(--accent); background: var(--white); }
+.ph--b::after { width: 14cqmin; height: 14cqmin; bottom: 10cqmin; left: calc(50% - 7cqmin); background: var(--accent); }
+
+.ph--c .ph__line { top: 62%; left: 16cqmin; width: 60cqmin; height: 2px; }
+.ph--c::before { width: 14cqmin; height: 14cqmin; top: calc(62% - 7cqmin); left: 10cqmin; background: var(--gold); }
+.ph--c::after { width: 14cqmin; height: 14cqmin; top: calc(62% - 7cqmin); right: 10cqmin; background: var(--accent); }
+
+.ph--d .ph__line { top: 22cqmin; bottom: 22cqmin; right: 34%; width: 2px; height: auto; }
+.ph--d::before { width: 13cqmin; height: 13cqmin; top: 14cqmin; right: calc(34% - 6.5cqmin); border: 2.5px solid var(--gold); background: var(--white); }
+.ph--d::after { width: 13cqmin; height: 13cqmin; bottom: 14cqmin; right: calc(34% - 6.5cqmin); border: 2.5px solid var(--accent); background: var(--white); }
+
+.ph--e .ph__line { top: 40%; left: 18cqmin; width: 50cqmin; height: 2px; }
+.ph--e::before { width: 15cqmin; height: 15cqmin; top: calc(40% - 7.5cqmin); left: 12cqmin; background: var(--accent); }
+.ph--e::after { width: 15cqmin; height: 15cqmin; top: calc(40% - 7.5cqmin); left: 62cqmin; background: var(--gold); }
+
+.tk-banner { height: 12rem; margin: 0 0 2.75rem; }
+
+.prj-banner { height: 11rem; margin: 0 0 2.75rem; }
+
+/* --- Motion: one deliberate on-load reveal, nothing scattered ------------ */
+
+.hero, .hero__photo, .cards { opacity: 0; animation: reveal-in 0.5s ease forwards; }
+.hero { animation-delay: 0.02s; }
+.hero__photo { animation-delay: 0.1s; }
+.cards { animation-delay: 0.18s; }
+
+@keyframes reveal-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero, .hero__photo, .cards { opacity: 1; animation: none; }
+}
 
 /* --- About page --------------------------------------------------------- */
 
@@ -1033,6 +1218,8 @@ main {
   font-size: 0.8rem;
   line-height: 1.5;
 }
+
+.about-mark { aspect-ratio: 4 / 5; max-width: 16rem; }
 
 .credentials {
   margin: 2.25rem 0 0;
