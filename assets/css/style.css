@@ -168,8 +168,11 @@ blockquote {
    but sized to ~55-60% of the H1 it sits under, and not much bigger, or a
    bold colored line out-competes a lighter-weight, black headline instead
    of reading as clearly secondary. */
+/* No max-width of its own — it inherits the width of whichever container
+   it sits in (.hero at 40rem, .page-head at 46rem), so a subtitle that
+   fits on one line at that width does, instead of wrapping early against
+   an artificial narrower cap. */
 .lede {
-  max-width: 30rem;
   margin: 0 0 1.1rem;
   color: var(--accent);
   font-size: 1.05rem;
@@ -388,7 +391,7 @@ main {
    to 1-2 lines instead. */
 .page-head {
   max-width: 46rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .page-head h1 {
@@ -1039,9 +1042,14 @@ main {
   border: 1px solid var(--line);
   border-radius: 10px;
   overflow: hidden;
-  margin-bottom: 1.4rem;
+  margin: 1.75rem 0 1.4rem;
   box-shadow: 0 1px 3px rgba(20, 25, 20, 0.05);
 }
+
+/* Consecutive tools shouldn't get double spacing from both this and the
+   previous tool's bottom margin — only the first tool (right after a
+   .note or paragraph with no bottom margin of its own) needs the top gap. */
+.tool + .tool { margin-top: 0; }
 
 .tool__photo { height: 6rem; border-radius: 0; }
 
