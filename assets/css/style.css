@@ -555,6 +555,26 @@ main {
 
 .arrow:hover::after { background: var(--gold); }
 
+/* Stat tiles reuse .card/.card__body (same border, radius, shadow) with a
+   big number + caption instead of a photo/title/link, for a plain
+   highlight-statistics row (baseline-2026.html). */
+.stat-card__num {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: var(--accent);
+  font-family: var(--sans);
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.stat-card__cap {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
 /* --- Updates ------------------------------------------------------------ */
 
 /* A shaded band instead of a hairline-topped list — gives the page a
