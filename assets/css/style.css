@@ -575,6 +575,15 @@ main {
   line-height: 1.45;
 }
 
+/* Four stat tiles in a single row (not .cards' default auto-fit, which
+   wraps a 4th item to its own line) — falls back to one column below
+   the width where four would get too cramped to read. */
+.stat-cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+@media (max-width: 48rem) {
+  .stat-cards { grid-template-columns: minmax(0, 1fr); }
+}
+
 /* --- Updates ------------------------------------------------------------ */
 
 /* A shaded band instead of a hairline-topped list — gives the page a
