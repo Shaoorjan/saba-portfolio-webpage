@@ -1,15 +1,46 @@
 /* ==========================================================================
    Saba Gul — personal scholarly site
-   One stylesheet. No frameworks, no external fonts, no third-party assets.
-   Light-only by design: pages must print and screenshot identically for the
-   evidence record (Part 7 of the strategy document).
+   One stylesheet. No frameworks, no third-party network requests. Fonts are
+   self-hosted (assets/fonts/) rather than loaded from Google Fonts, so the
+   page never depends on an external origin at render time. Light-only by
+   design: pages must print and screenshot identically for the evidence
+   record (Part 7 of the strategy document).
    ========================================================================== */
+
+/* --- Fonts (self-hosted, latin subset only) ------------------------------ */
+
+@font-face {
+  font-family: "Source Serif 4";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("../fonts/source-serif-4-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("../fonts/source-sans-3-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/source-sans-3-italic-400.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 /* --- Tokens ------------------------------------------------------------- */
 
 :root {
-  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
-  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
+  --sans: "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --bg: #ffffff;
@@ -18,15 +49,23 @@
   --deep: #0e1c2b;          /* dark band: footer, top rule */
   --deep-text: #cdd9e3;
   --deep-link: #9fc6e8;
-  --ink: #101820;
+  --ink: #1F2937;
   --text: #1c2733;
-  --muted: #4c5b6b;
+  --muted: #4B5563;
   --line: #d8e0e8;
   --line-strong: #aebccc;
   --accent: #1b4d8e;
   --accent-dark: #123a6c;
   --gold: #b8860b;
   --gold-dark: #96700a;
+
+  /* Figure-only tokens (Website_Agent_Prompt brief, Part A/C2). Amber (--gap)
+     means "gap or absence" and is used for nothing else on the site — never
+     for small text on white, since its contrast is too low for that. */
+  --panel: #EEF3F9;
+  --rule: #CBD5E1;
+  --neutral: #94A3B8;
+  --gap: #B7791F;
 
   /* Grounded, not arbitrary: blue is the official color of Child Abuse
      Prevention Month (the pinwheel campaign) — directly on-subject for a
@@ -136,6 +175,14 @@ blockquote {
   font-style: italic;
 }
 
+/* Browsers default <figure> to margin: 1em 40px — 80px of side margin was
+   silently shrinking every data figure's available width, worst inside the
+   already-narrow .pub__body flex column (research.html), where it collapsed
+   Figure 2's table scroller to under 100px. */
+figure {
+  margin: 1.5rem 0;
+}
+
 /* --- Utilities ---------------------------------------------------------- */
 
 .skip-link {
@@ -151,6 +198,18 @@ blockquote {
 .skip-link:focus {
   left: 0.5rem;
   top: 0.5rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .eyebrow {
@@ -483,6 +542,351 @@ main {
   .hero__photo { height: 100%; min-height: 22rem; aspect-ratio: auto; }
 }
 
+/* --- Data figures (Website_Agent_Prompt brief, Part B) -------------------
+   Shared pattern for every hand-drawn SVG figure: a panel box holding the
+   SVG, sized by its own wrapper (not this class), then a stat line and a
+   figcaption below it — outside the box, so the box's own size/aspect-ratio
+   is never affected by how much caption text there happens to be. */
+.fig-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.fig-box svg { width: 100%; height: 100%; }
+
+.fig__stat {
+  margin: 0.75rem 0 0;
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.fig__caption {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.fig__caption strong { color: var(--ink); }
+
+.fig__source {
+  display: block;
+  margin-top: 0.15rem;
+}
+
+/* Figure 5 (project.html) — the circular loop (viewBox 640x380) scaled to a
+   375px column would render its 8px labels under 5px, so mobile gets a
+   plain stacked list instead of a squeezed SVG, per the brief's "figures
+   must scale down cleanly or switch to a stacked layout" rule. Only one of
+   the two is ever in the accessibility tree, via display:none. The box's
+   own height (.fig5-box) is set further down, near the SVG it sizes. */
+.fig5-desktop { display: none; }
+
+.fig5-mobile-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.fig5-mobile-list li {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.fig5-mobile-list li:last-child { border-bottom: none; font-style: italic; color: var(--muted); }
+
+.fig5-mobile-list strong { color: var(--accent-dark); }
+
+@media (min-width: 56rem) {
+  .fig5-desktop { display: flex; }
+  .fig5-mobile-list { display: none; }
+}
+
+/* --- Published-outputs strip (Website_Agent_Prompt brief, Part A/C4) ----- */
+
+/* Full-width relative to the page's own 50rem column (cancels main's side
+   padding) rather than the viewport — 100vw would overflow by the
+   scrollbar's width and cause horizontal scroll. This also keeps the band
+   inside the site's established column rhythm instead of stretching to the
+   true edge of very wide viewports. */
+.published-strip {
+  margin: -1.25rem -1.5rem 3.5rem;
+  background: var(--panel);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 1.1rem 1.5rem;
+}
+
+.published-strip__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 56rem) {
+  .published-strip__inner { grid-template-columns: repeat(3, 1fr); }
+}
+
+.published-strip__item {
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.published-strip__label {
+  display: block;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.published-strip__desc {
+  display: block;
+  color: var(--muted);
+  margin: 0.15rem 0 0.3rem;
+}
+
+.published-strip__item a {
+  font-weight: 600;
+}
+
+.fig5-box { height: 24rem; }
+
+.fig7-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  margin: 1rem 0 0;
+}
+
+@media (min-width: 56rem) {
+  .fig7-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.fig7-panel svg { height: auto; }
+
+/* --- Figure 6 timeline ("Your first 90 days", toolkit.html) -------------
+   Deliberately plain HTML/CSS rather than one hand-drawn SVG: five blocks
+   of real, reflowing text (each with a multi-word description) can't be
+   laid out inside a single fixed-viewBox SVG at every width without either
+   manual line-wrapping per breakpoint or unreadably small type. A CSS grid
+   with a border-drawn connector gets the same "horizontal timeline that
+   becomes vertical on mobile" result with text that stays real, searchable,
+   and reflows correctly at any width. */
+.fig6-timeline {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 56rem) {
+  .fig6-timeline { grid-template-columns: repeat(5, 1fr); gap: 0.9rem; }
+}
+
+.fig6-step {
+  position: relative;
+  padding-left: 1.5rem;
+  border-left: 2px solid var(--rule);
+}
+
+@media (min-width: 56rem) {
+  .fig6-step {
+    padding-left: 0;
+    padding-top: 1.5rem;
+    border-left: none;
+    border-top: 2px solid var(--rule);
+  }
+}
+
+.fig6-step__node {
+  position: absolute;
+  left: -6px;
+  top: 0.15rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+@media (min-width: 56rem) {
+  .fig6-step__node { left: 0; top: -6px; }
+}
+
+.fig6-step__when {
+  display: block;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.15rem;
+}
+
+.fig6-step__label {
+  display: block;
+  color: var(--ink);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.fig6-step__desc {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.fig6-stat-tile {
+  display: inline-block;
+  margin: 0.75rem 0 0;
+  padding: 0.9rem 1.1rem;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+}
+
+/* --- Figure 2 (research.html) — the full crosswalk grid ------------------
+   A real <table>, not SVG: 13 rows x 9 columns of small glyphs reads far
+   better as semantic, screen-reader-navigable markup than as shrunk SVG
+   text, and a bounded horizontal scroller is the standard, expected
+   pattern for a wide data table on a narrow screen. */
+.fig2-scroll {
+  margin: 1.5rem 0 0;
+  overflow-x: auto;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+}
+
+.fig2-table {
+  width: 100%;
+  min-width: 34rem;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.fig2-table th,
+.fig2-table td {
+  padding: 0.5rem 0.65rem;
+  text-align: center;
+  border-bottom: 1px solid var(--rule);
+  white-space: nowrap;
+}
+
+.fig2-table thead th {
+  background: var(--panel);
+  color: var(--ink);
+  font-weight: 700;
+  border-bottom: 2px solid var(--rule);
+}
+
+.fig2-table tbody th[scope="row"] {
+  position: sticky;
+  left: 0;
+  text-align: left;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--white);
+  border-right: 1px solid var(--rule);
+}
+
+.fig2-provisional {
+  display: block;
+  font-weight: 400;
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.fig2-a,
+.fig2-g,
+.fig2-g7 { font-size: 0.95rem; }
+
+.fig2-a { color: var(--accent); }
+.fig2-g { color: var(--gap); }
+
+.fig2-g7 {
+  color: var(--gap);
+  border-left: 2px dashed var(--gap);
+  background: rgba(183, 121, 31, 0.08);
+}
+
+.fig2-g7.fig2-dash,
+.fig2-g7.fig2-nc {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.fig2-flag sup { color: var(--ink); margin-left: 0.1em; }
+
+/* --- Figure 3 (research.html) — the seven-value gap taxonomy ------------- */
+
+.fig3-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 40rem) {
+  .fig3-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 64rem) {
+  .fig3-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.fig3-tile {
+  padding: 0.85rem 1rem;
+  background: var(--panel);
+  border-left: 3px solid var(--gap);
+  border-radius: 6px;
+}
+
+.fig3-tile--anchor { border-left-color: var(--accent); }
+
+.fig3-tile__code {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.fig3-tile__name {
+  display: block;
+  margin: 0.15rem 0 0.3rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.fig3-tile__desc {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+/* --- Figure 4 (project.html) — the funnel --------------------------------- */
+
+.fig4-box { height: 15rem; }
+
 /* --- Cards -------------------------------------------------------------- */
 
 .cards {
@@ -701,6 +1105,7 @@ main {
   color: var(--muted);
   font-size: 0.85rem;
   line-height: 1.6;
+  overflow-wrap: anywhere;
 }
 
 .cite strong {
