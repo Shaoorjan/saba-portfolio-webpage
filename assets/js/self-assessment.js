@@ -19,10 +19,10 @@
   var DOMAINS = ['A', 'B', 'C', 'D', 'E', 'F'];
 
   var BANDS = [
-    { max: 11, key: '0-11', label: 'Foundational' },
-    { max: 20, key: '12-20', label: 'Developing' },
-    { max: 26, key: '21-26', label: 'Established' },
-    { max: 30, key: '27-30', label: 'Advanced' }
+    { max: 12, key: '0-12', label: 'Foundational' },
+    { max: 21, key: '13-21', label: 'Developing' },
+    { max: 28, key: '22-28', label: 'Established' },
+    { max: 32, key: '29-32', label: 'Advanced' }
   ];
 
   var form = document.getElementById('sa-form');
