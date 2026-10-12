@@ -43,50 +43,22 @@
   --sans: "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  --bg: #ffffff;
-  --surface: #f3f6f9;
-  --white: #ffffff;
-  --deep: #0e1c2b;          /* dark band: footer, top rule */
-  --deep-text: #cdd9e3;
-  --deep-link: #9fc6e8;
-  --ink: #1F2937;
-  --text: #1c2733;
-  --muted: #4B5563;
-  --line: #d8e0e8;
-  --line-strong: #aebccc;
-  --accent: #1b4d8e;
-  --accent-dark: #123a6c;
-  --gold: #b8860b;
-  --gold-dark: #96700a;
-
-  /* Figure-only tokens (Website_Agent_Prompt brief, Part A/C2). Amber (--gap)
-     means "gap or absence" and is used for nothing else on the site — never
-     for small text on white, since its contrast is too low for that. */
-  --panel: #EEF3F9;
-  --rule: #CBD5E1;
-  --neutral: #94A3B8;
-  --gap: #B7791F;
-
-  /* Grounded, not arbitrary: blue is the official color of Child Abuse
-     Prevention Month (the pinwheel campaign) — directly on-subject for a
-     safeguarding site — and navy + neutral gray + a small gold accent is
-     the standard recommendation for legal/nonprofit trust-building sites.
-     One accent, used identically everywhere (not a different hue per
-     page/card) per the "standard, consistent palette" direction — clay/
-     olive stay defined, since theme-toolkit/theme-project still set --hue
-     from them, but both now resolve to the same accent as everything else. */
-  --clay: var(--accent);
-  --clay-dark: var(--accent-dark);
-  --olive: var(--accent);
-  --olive-dark: var(--accent-dark);
-
-  --hue: var(--accent);
-  --hue-dark: var(--accent-dark);
-  --hue-wash: #eef3f9;
-
-  --tint-teal: var(--hue-wash);
-  --tint-clay: var(--hue-wash);
-  --tint-olive: var(--hue-wash);
+  /* Palette from the project flyer. Coral, teal, and sun are FILL colors only:
+     as text on white they fail contrast (2.5:1, 2.2:1, 1.7:1). */
+  --navy: #14213D;
+  --sun: #F6BE2C;
+  --coral: #F4845F;
+  --teal: #2EC4B6;
+  --cream: #FDEFC3;
+  --ink: #14213D;
+  --muted: #46546E;
+  --subtle: #5B6780;
+  --on-navy: #E6ECF5;
+  --on-navy-muted: #C9D3E6;
+  --coral-ink: #B4472A;
+  --rule: #D5DAE3;
+  --panel: #F5F7FB;
+  --white: #FFFFFF;
 
   /* --measure equals --page minus the 3rem of side padding, so text, bands,
      header, and footer all share one left edge and one right edge. */
@@ -120,18 +92,14 @@ body {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  background: var(--bg);
-  color: var(--text);
+  background: var(--white);
+  color: var(--ink);
   font-family: var(--sans);
   font-size: 1.0625rem;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
-
-/* Page theming: components read --hue, so one class recolors a page. */
-body.theme-toolkit { --hue: var(--clay); --hue-dark: var(--clay-dark); --hue-wash: var(--tint-clay); }
-body.theme-project { --hue: var(--olive); --hue-dark: var(--olive-dark); --hue-wash: var(--tint-olive); }
 
 img { max-width: 100%; height: auto; }
 
@@ -146,29 +114,33 @@ h1, h2, h3, h4 {
 p { margin: 0 0 1.15rem; }
 
 a {
-  color: var(--accent);
+  color: var(--navy);
   text-decoration: underline;
   text-decoration-thickness: 1.5px;
   text-underline-offset: 0.16em;
 }
 
-a:hover { color: var(--accent-dark); }
+a:hover { color: var(--coral-ink); }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--navy);
   outline-offset: 3px;
 }
 
+.site-header :focus-visible,
+.site-footer :focus-visible,
+.sa-bar :focus-visible { outline-color: var(--sun); }
+
 hr {
   border: 0;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--rule);
   margin: 3rem 0;
 }
 
 blockquote {
   margin: 1.5rem 0;
   padding: 0 0 0 1.25rem;
-  border-left: 3px solid var(--hue);
+  border-left: 3px solid var(--navy);
   color: var(--ink);
   font-family: var(--serif);
   font-size: 1.125rem;
@@ -189,8 +161,8 @@ figure {
   position: absolute;
   left: -9999px;
   top: 0;
-  background: var(--ink);
-  color: var(--white);
+  background: var(--sun);
+  color: var(--navy);
   padding: 0.65rem 1rem;
   z-index: 10;
 }
@@ -258,7 +230,7 @@ figure {
 .disclaimer {
   margin-top: 2.75rem;
   padding-top: 1.25rem;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--rule);
   color: var(--muted);
   font-size: 0.9rem;
 }
@@ -268,8 +240,8 @@ figure {
    filled highlight box — so a page with several placeholders doesn't read as
    several alerts stacked on top of ordinary content. */
 .todo {
-  border-bottom: 1px solid #b08d4d;
-  color: #8a6a2e;
+  border-bottom: 1px solid var(--coral-ink);
+  color: var(--coral-ink);
   padding: 0 0.1em;
   font-size: 0.95em;
   white-space: nowrap;
@@ -281,9 +253,7 @@ figure {
    rule, then the nav. Kept deliberately small — this repeats on every page,
    so its height is a tax the whole site pays on every visit. */
 .site-header {
-  background: var(--bg);
-  border-top: 3px solid var(--accent);
-  border-bottom: 1px solid var(--line-strong);
+  background: var(--navy);
 }
 
 .site-header__inner {
@@ -295,7 +265,7 @@ figure {
 
 .wordmark {
   display: inline-block;
-  color: var(--ink);
+  color: var(--white);
   font-family: var(--serif);
   font-size: clamp(1.5rem, 2.8vw, 1.85rem);
   line-height: 1.12;
@@ -303,7 +273,7 @@ figure {
   text-decoration: none;
 }
 
-.wordmark:hover { color: var(--ink); }
+.wordmark:hover { color: var(--white); }
 
 /* Not italic: a slanted serif tagline at this size read as decorative rather
    than legible. Upright, slightly smaller, and tracked instead. */
@@ -311,7 +281,7 @@ figure {
   display: block;
   max-width: 37rem;
   margin: 0.3rem auto 0;
-  color: var(--muted);
+  color: var(--on-navy-muted);
   font-family: var(--sans);
   font-size: 0.82rem;
   font-weight: 600;
@@ -328,7 +298,7 @@ figure {
   width: 2rem;
   height: 2px;
   margin: 0.85rem auto 0.75rem;
-  background: var(--accent);
+  background: var(--sun);
 }
 
 .nav ul {
@@ -345,21 +315,18 @@ figure {
   display: inline-block;
   padding: 0.2rem 0;
   border-bottom: 2px solid transparent;
-  color: var(--text);
+  color: var(--on-navy);
   font-size: 0.9rem;
   text-decoration: none;
 }
 
-.nav a:hover {
-  border-bottom-color: var(--line-strong);
-  color: var(--accent);
+.nav a:hover,
+.nav a[aria-current="page"] {
+  border-bottom-color: var(--sun);
+  color: var(--on-navy);
 }
 
-.nav a[aria-current="page"] {
-  border-bottom-color: var(--accent);
-  color: var(--accent);
-  font-weight: 600;
-}
+.nav a[aria-current="page"] { font-weight: 600; }
 
 /* --- Main --------------------------------------------------------------- */
 
@@ -424,7 +391,7 @@ main {
 .toc ul {
   margin: 0;
   padding: 0 0 0 0.9rem;
-  border-left: 1px solid var(--line);
+  border-left: 1px solid var(--rule);
   list-style: none;
 }
 
@@ -438,7 +405,7 @@ main {
 }
 
 .toc a:hover {
-  color: var(--hue);
+  color: var(--coral-ink);
   text-decoration: underline;
   text-decoration-thickness: 1px;
 }
@@ -460,12 +427,28 @@ main {
   line-height: 1.24;
 }
 
+/* The navy band continues the header behind the hero. It cancels main's top
+   padding to sit flush under the header, and paints edge to edge as one
+   border-image outset: unlike width:100vw it adds no scrollable overflow,
+   and unlike background + box-shadow it leaves no sub-pixel seam where the
+   two layers meet. */
 .hero-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 2.25rem;
   align-items: center;
-  margin-bottom: 3.75rem;
+  margin: -2.75rem 0 3.75rem;
+  padding: 2.75rem 0;
+  border-image: linear-gradient(var(--navy), var(--navy)) fill 0 / 0 / 0 100vmax;
+}
+
+.hero h1 { color: var(--white); }
+.hero .lede { color: var(--on-navy-muted); }
+
+.hero__figure {
+  padding: 1rem;
+  background: var(--white);
+  border-radius: 10px;
 }
 
 @media (min-width: 56rem) {
@@ -486,7 +469,6 @@ main {
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  white-space: nowrap;
 }
 
 .hero h1 {
@@ -501,7 +483,7 @@ main {
 .hero__intro {
   max-width: 30rem;
   margin-top: 0;
-  color: var(--text);
+  color: var(--on-navy);
   font-size: 1.03rem;
 }
 
@@ -522,19 +504,19 @@ main {
   text-decoration: none;
 }
 
-.hero__btn--primary { background: var(--accent-dark); color: #fff; }
-.hero__btn--primary:hover { background: var(--ink); }
+.hero__btn--primary { background: var(--navy); color: var(--white); }
+.hero__btn--primary:hover { background: var(--muted); color: var(--white); }
 
 /* A transparent fill + faint border nearly disappears against a white
    page — white fill + a full-strength border reads as a button at a
    glance instead. */
 .hero__btn--ghost {
   background: var(--white);
-  color: var(--accent-dark);
-  border: 1.5px solid var(--accent-dark);
+  color: var(--navy);
+  border: 1.5px solid var(--navy);
 }
 
-.hero__btn--ghost:hover { background: var(--hue-wash); }
+.hero__btn--ghost:hover { background: var(--panel); color: var(--navy); }
 
 .hero__photo { aspect-ratio: 4 / 5; }
 
@@ -568,9 +550,21 @@ main {
   line-height: 1.5;
 }
 
+/* Stat lines take the color of their source, as on the flyer: coral for
+   Module 1 / crosswalk numbers, sun for the Washington Baseline. Fills only;
+   the text on them stays navy. */
+.fig__stat--coral,
+.fig__stat--sun {
+  padding: 0.55rem 0.8rem;
+  border-radius: 6px;
+}
+
+.fig__stat--coral { background: var(--coral); }
+.fig__stat--sun { background: var(--sun); }
+
 .fig__caption {
   margin: 0.4rem 0 0;
-  color: var(--muted);
+  color: var(--subtle);
   font-size: 0.8rem;
   line-height: 1.5;
 }
@@ -608,7 +602,7 @@ main {
 
 .fig5-mobile-list li:last-child { border-bottom: none; font-style: italic; color: var(--muted); }
 
-.fig5-mobile-list strong { color: var(--accent-dark); }
+.fig5-mobile-list strong { color: var(--navy); }
 
 @media (min-width: 56rem) {
   .fig5-desktop { display: flex; }
@@ -624,9 +618,7 @@ main {
    true edge of very wide viewports. */
 .published-strip {
   margin: -1.25rem -1.5rem 3.5rem;
-  background: var(--panel);
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
+  background: var(--cream);
   padding: 1.1rem 1.5rem;
 }
 
@@ -700,7 +692,7 @@ main {
 .fig6-step {
   position: relative;
   padding-left: 1.5rem;
-  border-left: 2px solid var(--rule);
+  border-left: 2px solid var(--navy);
 }
 
 @media (min-width: 56rem) {
@@ -708,7 +700,7 @@ main {
     padding-left: 0;
     padding-top: 1.5rem;
     border-left: none;
-    border-top: 2px solid var(--rule);
+    border-top: 2px solid var(--navy);
   }
 }
 
@@ -719,8 +711,12 @@ main {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: var(--accent);
+  border: 2px solid var(--navy);
+  background: var(--coral);
 }
+
+.fig6-step:nth-child(3n+2) .fig6-step__node { background: var(--sun); }
+.fig6-step:nth-child(3n) .fig6-step__node { background: var(--teal); }
 
 @media (min-width: 56rem) {
   .fig6-step__node { left: 0; top: -6px; }
@@ -754,10 +750,12 @@ main {
   display: inline-block;
   margin: 0.75rem 0 0;
   padding: 0.9rem 1.1rem;
-  background: var(--panel);
-  border: 1px solid var(--rule);
+  background: var(--teal);
   border-radius: 8px;
 }
+
+.fig6-stat-tile .stat-card__num,
+.fig6-stat-tile .stat-card__cap { color: var(--ink); }
 
 /* --- Figure 2 (research.html) — the full crosswalk grid ------------------
    A real <table>, not SVG: 13 rows x 9 columns of small glyphs reads far
@@ -810,27 +808,45 @@ main {
   color: var(--muted);
 }
 
+/* Coral may not be used as text on white, so a hit fills its cell instead of
+   coloring the dot: navy cell + white dot for A, coral cell + navy dot for
+   G1–G6, hatched coral for provisional G7. The inset white ring keeps
+   neighbouring filled cells visually separate. */
 .fig2-a,
 .fig2-g,
 .fig2-g7 { font-size: 0.95rem; }
 
-.fig2-a { color: var(--accent); }
-.fig2-g { color: var(--gap); }
+.fig2-a {
+  background: var(--navy);
+  color: var(--white);
+  box-shadow: inset 0 0 0 2px var(--white);
+}
+
+.fig2-g {
+  background: var(--coral);
+  color: var(--navy);
+  box-shadow: inset 0 0 0 2px var(--white);
+}
 
 .fig2-g7 {
-  color: var(--gap);
-  border-left: 2px dashed var(--gap);
-  background: rgba(183, 121, 31, 0.08);
+  color: var(--navy);
+  border-left: 2px dashed var(--coral);
+  background: repeating-linear-gradient(45deg, var(--coral) 0 3px, var(--white) 3px 7px);
+  box-shadow: inset 0 0 0 2px var(--white);
 }
 
 .fig2-g7.fig2-dash,
 .fig2-g7.fig2-nc {
+  background: var(--white);
+  box-shadow: none;
   color: var(--muted);
   font-size: 0.72rem;
   font-weight: 600;
 }
 
-.fig2-flag sup { color: var(--ink); margin-left: 0.1em; }
+.fig2-g7:empty { background: var(--white); box-shadow: none; }
+
+.fig2-flag sup { color: var(--navy); margin-left: 0.1em; }
 
 /* --- Figure 3 (research.html) — the seven-value gap taxonomy ------------- */
 
@@ -854,11 +870,11 @@ main {
 .fig3-tile {
   padding: 0.85rem 1rem;
   background: var(--panel);
-  border-left: 3px solid var(--gap);
+  border-left: 3px solid var(--coral);
   border-radius: 6px;
 }
 
-.fig3-tile--anchor { border-left-color: var(--accent); }
+.fig3-tile--anchor { border-left-color: var(--navy); }
 
 .fig3-tile__code {
   display: block;
@@ -905,14 +921,14 @@ main {
 .card {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--line);
+  border: 1px solid var(--rule);
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(20, 25, 20, 0.05);
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--navy) 5%, transparent);
   transition: transform 0.16s ease, box-shadow 0.16s ease;
 }
 
-.card:hover { transform: translateY(-3px); box-shadow: 0 14px 24px rgba(20, 25, 20, 0.09); }
+.card:hover { transform: translateY(-3px); box-shadow: 0 14px 24px color-mix(in srgb, var(--navy) 9%, transparent); }
 
 .card__photo { height: 7rem; border-radius: 0; }
 
@@ -928,7 +944,7 @@ main {
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--navy);
 }
 
 .card p {
@@ -939,7 +955,7 @@ main {
 
 .arrow {
   position: relative;
-  color: var(--accent);
+  color: var(--navy);
   font-size: 0.93rem;
   font-weight: 600;
   text-decoration: none;
@@ -954,11 +970,11 @@ main {
   right: 0;
   bottom: 0;
   height: 2px;
-  background: var(--line-strong);
+  background: var(--rule);
   transition: background 0.15s ease;
 }
 
-.arrow:hover::after { background: var(--gold); }
+.arrow:hover::after { background: var(--coral-ink); }
 
 /* Stat tiles reuse .card/.card__body (same border, radius, shadow) with a
    big number + caption instead of a photo/title/link, for a plain
@@ -966,7 +982,7 @@ main {
 .stat-card__num {
   display: block;
   margin-bottom: 0.4rem;
-  color: var(--accent);
+  color: var(--navy);
   font-family: var(--sans);
   font-size: 2rem;
   font-weight: 800;
@@ -985,6 +1001,11 @@ main {
    the width where four would get too cramped to read. */
 .stat-cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
+.stat-cards .card { background: var(--sun); border-color: var(--sun); }
+
+.stat-cards .stat-card__num,
+.stat-cards .stat-card__cap { color: var(--ink); }
+
 @media (max-width: 48rem) {
   .stat-cards { grid-template-columns: minmax(0, 1fr); }
 }
@@ -998,7 +1019,7 @@ main {
   border-top: none;
   margin: 0 -1.5rem -1px;
   padding: 2rem 1.5rem 2.25rem;
-  background: var(--surface);
+  background: var(--panel);
 }
 
 @media (min-width: 40rem) {
@@ -1012,7 +1033,7 @@ main {
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--navy);
 }
 
 .updates ul {
@@ -1026,14 +1047,14 @@ main {
   grid-template-columns: 8.5rem minmax(0, 1fr);
   gap: 0 1rem;
   padding: 0.75rem 0;
-  border-top: 1px solid var(--line-strong);
+  border-top: 1px solid var(--rule);
   font-size: 1rem;
 }
 
 .updates li:first-child { border-top: 0; }
 
 .updates__date {
-  color: var(--accent);
+  color: var(--navy);
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -1053,11 +1074,11 @@ main {
   display: flex;
   gap: 1.35rem;
   max-width: var(--measure);
-  border: 1px solid var(--line);
+  border: 1px solid var(--rule);
   border-radius: 10px;
   padding: 1.6rem 1.7rem 1.5rem;
   margin-bottom: 1.4rem;
-  box-shadow: 0 1px 3px rgba(20, 25, 20, 0.05);
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--navy) 5%, transparent);
 }
 
 /* Superseded by .pub-mark, a small square abstract mark. */
@@ -1081,7 +1102,7 @@ main {
 
 .pub__meta {
   margin: 0 0 1rem;
-  color: var(--hue);
+  color: var(--navy);
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.01em;
@@ -1100,8 +1121,8 @@ main {
   margin: 0.9rem 0 0;
   padding: 0.9rem 1.1rem;
   border-radius: 8px;
-  background: var(--surface);
-  border: 1px solid var(--line);
+  background: var(--panel);
+  border: 1px solid var(--rule);
   color: var(--muted);
   font-size: 0.85rem;
   line-height: 1.6;
@@ -1110,7 +1131,7 @@ main {
 
 .cite strong {
   margin-right: 0.4em;
-  color: var(--accent);
+  color: var(--navy);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.09em;
@@ -1128,8 +1149,7 @@ main {
 .scope {
   margin: 2rem 0;
   padding: 1.1rem 1.3rem;
-  background: var(--surface);
-  border: 1px solid var(--line-strong);
+  background: var(--cream);
   font-size: 0.95rem;
 }
 
@@ -1140,7 +1160,7 @@ main {
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--hue);
+  color: var(--navy);
 }
 
 .scope p:last-child { margin-bottom: 0; }
@@ -1149,8 +1169,6 @@ main {
   font-size: 0.95rem;
   color: var(--muted);
 }
-
-.note--warn { border-left-color: #b08d4d; }
 
 /* --- Self-assessment instrument ----------------------------------------- */
 
@@ -1183,8 +1201,8 @@ main {
 .sa-record {
   padding: 1.25rem 1.4rem !important;
   background: var(--white);
-  border: 1px solid var(--line-strong) !important;
-  border-top: 3px solid var(--hue) !important;
+  border: 1px solid var(--rule) !important;
+  border-top: 3px solid var(--navy) !important;
 }
 
 .sa-record legend {
@@ -1195,7 +1213,7 @@ main {
   font-weight: 700;
   letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: var(--hue);
+  color: var(--navy);
 }
 
 .sa-record__grid {
@@ -1219,15 +1237,15 @@ main {
   width: 100%;
   margin-top: 0.3rem;
   padding: 0.45rem 0.55rem;
-  background: var(--bg);
-  border: 1px solid var(--line-strong);
-  color: var(--text);
+  background: var(--white);
+  border: 1px solid var(--subtle);
+  color: var(--ink);
   font-family: inherit;
   font-size: 1rem;
 }
 
 .sa-record input:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--navy);
   outline-offset: 1px;
 }
 
@@ -1240,7 +1258,7 @@ main {
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: 2px solid var(--line-strong);
+  border-top: 2px solid var(--rule);
 }
 
 .sa-item {
@@ -1249,7 +1267,7 @@ main {
   align-items: baseline;
   justify-content: space-between;
   gap: 0.2rem 1rem;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--rule);
 }
 
 .sa-item > label {
@@ -1265,12 +1283,12 @@ main {
   width: 1.05rem;
   height: 1.05rem;
   margin: 0.28rem 0 0;
-  accent-color: var(--accent);
+  accent-color: var(--navy);
   cursor: pointer;
 }
 
 .sa-item__code {
-  color: var(--hue);
+  color: var(--navy);
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.03em;
@@ -1289,8 +1307,7 @@ main {
 }
 
 .sa-item.is-yes {
-  background: rgba(15, 76, 92, 0.045);
-  background: color-mix(in srgb, var(--hue) 5%, transparent);
+  background: color-mix(in srgb, var(--navy) 5%, transparent);
 }
 
 .sa-item.is-yes .sa-item__text { color: var(--ink); }
@@ -1305,7 +1322,7 @@ main {
 }
 
 .sa-subtotal strong {
-  color: var(--hue);
+  color: var(--navy);
   font-size: 1rem;
   letter-spacing: 0;
 }
@@ -1316,7 +1333,7 @@ main {
   max-width: var(--measure);
   margin-top: 1rem;
   padding-top: 2rem;
-  border-top: 4px solid var(--hue);
+  border-top: 4px solid var(--navy);
 }
 
 .sa-results h2 { margin: 0 0 1.25rem; font-size: 1.6rem; }
@@ -1340,12 +1357,12 @@ main {
 .sa-table th,
 .sa-table td {
   padding: 0.5rem 0.6rem;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--rule);
   text-align: left;
 }
 
 .sa-table thead th {
-  border-bottom: 2px solid var(--line-strong);
+  border-bottom: 2px solid var(--rule);
   color: var(--muted);
   font-family: var(--sans);
   font-size: 0.75rem;
@@ -1360,9 +1377,9 @@ main {
 
 .sa-table tfoot th,
 .sa-table tfoot td {
-  border-top: 2px solid var(--line-strong);
+  border-top: 2px solid var(--rule);
   border-bottom: 0;
-  color: var(--accent);
+  color: var(--navy);
   font-family: var(--sans);
   font-size: 1.05rem;
   font-weight: 700;
@@ -1377,8 +1394,8 @@ main {
 .sa-band {
   padding: 1rem 1.15rem;
   margin-bottom: 0.6rem;
-  background: var(--surface);
-  border-left: 3px solid var(--line-strong);
+  background: var(--panel);
+  border-left: 3px solid var(--rule);
   color: var(--muted);
   font-size: 0.95rem;
 }
@@ -1401,14 +1418,14 @@ main {
 
 .sa-band.is-current {
   background: var(--white);
-  border-left-color: var(--hue);
-  border-top: 1px solid var(--line-strong);
-  border-right: 1px solid var(--line-strong);
-  border-bottom: 1px solid var(--line-strong);
-  color: var(--text);
+  border-left-color: var(--navy);
+  border-top: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink);
 }
 
-.sa-band.is-current .sa-band__score { color: var(--accent); }
+.sa-band.is-current .sa-band__score { color: var(--navy); }
 
 .sa-actions {
   display: flex;
@@ -1419,33 +1436,33 @@ main {
 
 .btn {
   padding: 0.6rem 1.1rem;
-  background: var(--accent);
-  border: 1px solid var(--accent);
-  color: #ffffff;
+  background: var(--navy);
+  border: 1.5px solid var(--navy);
+  color: var(--white);
   font-family: inherit;
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
 }
 
-.btn:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+.btn:hover { background: var(--muted); border-color: var(--muted); }
 
 .btn--quiet {
-  background: transparent;
-  border-color: var(--line-strong);
-  color: var(--text);
+  background: var(--white);
+  border-color: var(--navy);
+  color: var(--navy);
   font-weight: 400;
 }
 
-.btn--quiet:hover { background: var(--surface); border-color: var(--accent); color: var(--accent); }
+.btn--quiet:hover { background: var(--panel); border-color: var(--navy); color: var(--navy); }
 
 /* Running score, JS-only. */
 .sa-bar {
   position: sticky;
   bottom: 0;
   z-index: 5;
-  background: var(--deep);
-  border-top: 3px solid var(--hue);
+  background: var(--navy);
+  border-top: 3px solid var(--sun);
 }
 
 .sa-bar__inner {
@@ -1456,30 +1473,30 @@ main {
   max-width: var(--page);
   margin: 0 auto;
   padding: 0.7rem 1.5rem;
-  color: var(--deep-text);
+  color: var(--on-navy-muted);
   font-size: 0.9rem;
 }
 
 .sa-bar__score {
-  color: #ffffff;
+  color: var(--white);
   font-size: 1.05rem;
   font-weight: 700;
 }
 
 .sa-bar__band { flex: 1 1 auto; }
 
-.sa-bar__link { color: var(--deep-link); font-size: 0.875rem; }
+.sa-bar__link { color: var(--sun); font-size: 0.875rem; }
 
 /* --- Tools -------------------------------------------------------------- */
 
 .tool {
   max-width: var(--measure);
   display: block;
-  border: 1px solid var(--line);
+  border: 1px solid var(--rule);
   border-radius: 10px;
   overflow: hidden;
   margin: 1.75rem 0 1.4rem;
-  box-shadow: 0 1px 3px rgba(20, 25, 20, 0.05);
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--navy) 5%, transparent);
 }
 
 /* Consecutive tools shouldn't get double spacing from both this and the
@@ -1499,8 +1516,8 @@ main {
   height: 2.15rem;
   margin-top: 0.1rem;
   border-radius: 50%;
-  background: var(--hue);
-  color: #fff;
+  background: var(--navy);
+  color: var(--white);
   font-family: var(--sans);
   font-size: 1rem;
   font-weight: 700;
@@ -1546,8 +1563,7 @@ main {
   max-width: var(--measure);
   margin: 2rem 0 0;
   padding: 1.1rem 1.3rem;
-  background: var(--hue-wash);
-  border-left: 4px solid var(--hue);
+  background: var(--cream);
   border-radius: 10px;
   font-size: 0.97rem;
 }
@@ -1568,37 +1584,37 @@ main {
   position: relative;
   overflow: hidden;
   border-radius: 8px;
-  background: var(--hue-wash);
-  border: 1px solid var(--line);
+  background: var(--panel);
+  border: 1px solid var(--rule);
   container-type: size;
 }
 
 .ph__line {
   position: absolute;
-  background: var(--line-strong);
+  background: var(--rule);
 }
 
 .ph::before, .ph::after { content: ""; position: absolute; border-radius: 3px; }
 
 .ph--a .ph__line { top: 50%; left: 22cqmin; width: 56cqmin; height: 2px; }
-.ph--a::before { width: 15cqmin; height: 15cqmin; top: calc(50% - 7.5cqmin); left: 14cqmin; background: var(--accent); }
-.ph--a::after { width: 15cqmin; height: 15cqmin; top: calc(50% - 7.5cqmin); right: 14cqmin; border: 2.5px solid var(--gold); background: var(--white); }
+.ph--a::before { width: 15cqmin; height: 15cqmin; top: calc(50% - 7.5cqmin); left: 14cqmin; background: var(--navy); }
+.ph--a::after { width: 15cqmin; height: 15cqmin; top: calc(50% - 7.5cqmin); right: 14cqmin; border: 2.5px solid var(--sun); background: var(--white); }
 
 .ph--b .ph__line { top: 18cqmin; bottom: 18cqmin; left: 50%; width: 2px; height: auto; }
-.ph--b::before { width: 14cqmin; height: 14cqmin; top: 10cqmin; left: calc(50% - 7cqmin); border: 2.5px solid var(--accent); background: var(--white); }
-.ph--b::after { width: 14cqmin; height: 14cqmin; bottom: 10cqmin; left: calc(50% - 7cqmin); background: var(--accent); }
+.ph--b::before { width: 14cqmin; height: 14cqmin; top: 10cqmin; left: calc(50% - 7cqmin); border: 2.5px solid var(--navy); background: var(--white); }
+.ph--b::after { width: 14cqmin; height: 14cqmin; bottom: 10cqmin; left: calc(50% - 7cqmin); background: var(--navy); }
 
 .ph--c .ph__line { top: 62%; left: 16cqmin; width: 60cqmin; height: 2px; }
-.ph--c::before { width: 14cqmin; height: 14cqmin; top: calc(62% - 7cqmin); left: 10cqmin; background: var(--gold); }
-.ph--c::after { width: 14cqmin; height: 14cqmin; top: calc(62% - 7cqmin); right: 10cqmin; background: var(--accent); }
+.ph--c::before { width: 14cqmin; height: 14cqmin; top: calc(62% - 7cqmin); left: 10cqmin; background: var(--sun); }
+.ph--c::after { width: 14cqmin; height: 14cqmin; top: calc(62% - 7cqmin); right: 10cqmin; background: var(--navy); }
 
 .ph--d .ph__line { top: 22cqmin; bottom: 22cqmin; right: 34%; width: 2px; height: auto; }
-.ph--d::before { width: 13cqmin; height: 13cqmin; top: 14cqmin; right: calc(34% - 6.5cqmin); border: 2.5px solid var(--gold); background: var(--white); }
-.ph--d::after { width: 13cqmin; height: 13cqmin; bottom: 14cqmin; right: calc(34% - 6.5cqmin); border: 2.5px solid var(--accent); background: var(--white); }
+.ph--d::before { width: 13cqmin; height: 13cqmin; top: 14cqmin; right: calc(34% - 6.5cqmin); border: 2.5px solid var(--sun); background: var(--white); }
+.ph--d::after { width: 13cqmin; height: 13cqmin; bottom: 14cqmin; right: calc(34% - 6.5cqmin); border: 2.5px solid var(--navy); background: var(--white); }
 
 .ph--e .ph__line { top: 40%; left: 18cqmin; width: 50cqmin; height: 2px; }
-.ph--e::before { width: 15cqmin; height: 15cqmin; top: calc(40% - 7.5cqmin); left: 12cqmin; background: var(--accent); }
-.ph--e::after { width: 15cqmin; height: 15cqmin; top: calc(40% - 7.5cqmin); left: 62cqmin; background: var(--gold); }
+.ph--e::before { width: 15cqmin; height: 15cqmin; top: calc(40% - 7.5cqmin); left: 12cqmin; background: var(--navy); }
+.ph--e::after { width: 15cqmin; height: 15cqmin; top: calc(40% - 7.5cqmin); left: 62cqmin; background: var(--sun); }
 
 .tk-banner { height: 12rem; margin: 0 0 2.75rem; }
 
@@ -1652,8 +1668,8 @@ main {
 .portrait img {
   display: block;
   width: 100%;
-  border: 1px solid var(--line-strong);
-  background: var(--surface);
+  border: 1px solid var(--rule);
+  background: var(--panel);
 }
 
 .portrait figcaption {
@@ -1668,9 +1684,9 @@ main {
 .credentials {
   margin: 2.25rem 0 0;
   padding: 1.25rem 1.4rem;
-  background: var(--surface);
-  border: 1px solid var(--line-strong);
-  border-left: 4px solid var(--hue);
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--navy);
   font-size: 0.97rem;
 }
 
@@ -1681,7 +1697,7 @@ main {
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--hue);
+  color: var(--navy);
 }
 
 .credentials p:last-child { margin-bottom: 0; }
@@ -1693,8 +1709,8 @@ main {
   margin: 0 0 2rem;
   padding: 1.4rem 1.5rem;
   background: var(--white);
-  border: 1px solid var(--line-strong);
-  border-top: 3px solid var(--hue);
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--navy);
 }
 
 .contact-details dl {
@@ -1711,7 +1727,7 @@ main {
 }
 
 .contact-details dt {
-  color: var(--hue);
+  color: var(--navy);
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -1724,30 +1740,34 @@ main {
 /* --- Footer ------------------------------------------------------------- */
 
 .site-footer {
-  background: var(--deep);
-  border-top: 4px solid var(--accent);
+  background: var(--navy);
+}
+
+.site-footer::before {
+  content: "";
+  display: block;
+  height: 6px;
+  background: linear-gradient(to right, var(--coral) 0 33.333%, var(--sun) 33.333% 66.667%, var(--teal) 66.667% 100%);
 }
 
 .site-footer__inner {
   max-width: var(--page);
   margin: 0 auto;
   padding: 2.4rem 1.5rem 3rem;
-  color: var(--deep-text);
+  color: var(--on-navy-muted);
   font-size: 0.85rem;
   line-height: 1.65;
 }
 
 .site-footer__meta {
   margin: 0 0 0.9rem;
-  color: #f1f4f5;
+  color: var(--on-navy-muted);
   font-weight: 500;
 }
 
-.site-footer__meta a { color: var(--deep-link); }
+.site-footer__meta a { color: var(--sun); }
 
-.site-footer__meta a:hover { color: #ffffff; }
-
-.site-footer :focus-visible { outline-color: var(--deep-link); }
+.site-footer__meta a:hover { color: var(--white); }
 
 .site-footer__legal {
   max-width: 52rem;
@@ -1765,7 +1785,7 @@ main {
     margin: 0.65in 0.7in 0.6in;
   }
 
-  :root { --bg: #fff; --surface: #fff; --white: #fff; }
+  :root { --white: #fff; --panel: #fff; --cream: #fff; }
 
   /* The screen layout makes body a flex column to pin the footer down; in print
      that fights pagination, so it goes back to normal flow. */
@@ -1783,9 +1803,27 @@ main {
 
   /* Dark bands would print as slabs of ink. */
   .site-header {
+    background: #fff;
     border-top: 2px solid #333;
     border-bottom: 1px solid #999;
   }
+
+  .wordmark,
+  .wordmark__role { color: #000; }
+
+  .hero-row {
+    margin-top: 0;
+    padding: 0;
+    border-image: none;
+  }
+
+  .hero h1,
+  .hero .lede,
+  .hero__intro { color: #000; }
+
+  .hero__figure { padding: 0; }
+
+  .site-footer::before { display: none; }
 
   .site-header__inner { text-align: left; padding-bottom: 0.6rem; }
 
