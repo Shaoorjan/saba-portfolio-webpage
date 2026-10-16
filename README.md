@@ -18,7 +18,7 @@ disk as well as hosted.
 | `about.html` | About |
 | `research.html` | Research & publications |
 | `toolkit.html` | The toolkit — all four tools |
-| `self-assessment.html` | The 30-indicator safeguarding self-assessment, scored in the browser |
+| `self-assessment.html` | The 32-indicator safeguarding self-assessment, scored in the browser |
 | `project.html` | The U.S. Nonprofit Safeguarding Crosswalk Project |
 | `contact.html` | Contact |
 | `404.html` | Not-found page |
@@ -84,4 +84,4 @@ Site text and design © 2026 Saba Gul. The published research and tools the site
 links to are licensed CC BY 4.0 and archived on Zenodo:
 
 - *Safeguarding Without a Baseline* (Module 1) — https://doi.org/10.5281/zenodo.21847737
-- Implementation Toolkit v1.0 (Tools 1–4) — https://doi.org/10.5281/zenodo.21856846
+- Implementation Toolkit (Tools 1–4) — https://doi.org/10.5281/zenodo.22023885

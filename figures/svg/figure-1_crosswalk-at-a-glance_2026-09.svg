@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Figure 1 as published on pseacrosswalk.org until October 2026 (inline SVG on index.html), archived when the HTML version replaced it. -->
+<svg viewBox="0 0 320 336" width="320" height="336" font-family="Source Sans 3, Arial, sans-serif" role="img" aria-labelledby="fig1-title fig1-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="fig1-title">The crosswalk at a glance</title>
+  <desc id="fig1-desc">Chart of 13 international safeguarding obligations. None is anchored by a U.S. requirement of general application that reaches nonprofits and protects the people they serve. Eleven are anchored only for a bounded group, such as licensed long-term care. Two, exchanging aid already owed and reporting across organizations, have no anchor identified within the scope of the review.</desc>
+  <rect x="10" y="10" width="9" height="9" rx="1.5" fill="#F6BE2C"/>
+  <text x="25" y="17.5" font-size="8" fill="#14213D">Bounded group <tspan fill="#46546E">&#8212; 11 of 13</tspan></text>
+  <rect x="10" y="25" width="9" height="9" rx="1.5" fill="#F4845F"/>
+  <text x="25" y="32.5" font-size="8" fill="#14213D">No anchor identified <tspan fill="#46546E">&#8212; 2 of 13</tspan></text>
+  <rect x="10" y="40" width="9" height="9" rx="1.5" fill="#FFFFFF" stroke="#14213D" stroke-width="1"/>
+  <text x="14.5" y="47" text-anchor="middle" font-size="6" font-weight="700" fill="#14213D">0</text>
+  <text x="25" y="47.5" font-size="8" fill="#14213D">General application <tspan fill="#46546E">&#8212; 0 of 13</tspan></text>
+  <line x1="10" y1="59" x2="310" y2="59" stroke="#D5DAE3" stroke-width="1"/>
+  <text x="10" y="77" font-size="7" font-weight="700" letter-spacing="0.03em" fill="#46546E">PRINCIPLE 1</text>
+  <rect x="10" y="80" width="7" height="7" rx="1.5" fill="#F6BE2C"/>
+  <text x="22" y="86.2" font-size="7.4" fill="#14213D"><tspan font-weight="700">1.1</tspan> Abuse classed as gross misconduct</text>
+  <rect x="10" y="93.5" width="7" height="7" rx="1.5" fill="#F6BE2C"/>
+  <text x="22" y="99.7" font-size="7.4" fill="#14213D"><tspan font-weight="700">1.2</tspan> Dismissal that follows the person</text>
+  <text x="10" y="118.0" font-size="7" font-weight="700" letter-spacing="0.03em" fill="#46546E">PRINCIPLE 2</text>
+  <rect x="10" y="121.0" width="7" height="7" rx="1.5" fill="#F6BE2C"/>
+  <text x="22" y="127.2" font-size="7.4" fill="#14213D"><tspan font-weight="700">2.1</tspan> No sexual activity with under-18s</text>
+  <rect x="10" y="134.5" width="7" height="7" rx="1.5" fill="#F6BE2C"/>
+  <text x="22" y="140.7" font-size="7.4" fill="#14213D"><tspan font-weight="700">2.2</tspan> Mistaken age is no defence</text>
+  <text x="10" y="159.0" font-size="7" font-weight="700" letter-spacing="0.03em" fill="#46546E">PRINCIPLE 3</text>
+  <rect x="10" y="162.0" width="7" height="7" rx="1.5" fill="#F6BE2C"/>
+  <text x="22" y="168.2" font-size="7.4" fill="#14213D"><tspan font-weight="700">3.1</tspan> No exchanging money, goods or services for sex</text>
+  <rect x="10" y="175.5" width="7" height="7" rx="1.5" fill="#F4845F"/>
+  <text x="22" y="181.7" font-size="7.4" fill="#14213D"><tspan font-weight="700">3.2</tspan> No exchanging aid already owed</text>
+  <text x="10" y="200.0" font-size="7" font-weight="700" letter-spacing="0.03em" fill="#46546E">PRINCIPLE 4</text>
+  <rect x="10" y="203.0" width="7" height="7" rx="1.5" fill="#F6BE2C"/>
+  <text x="22" y="209.2" font-size="7.4" fill="#14213D"><tspan font-weight="700">4.1</tspan> No sexual relationships with participants</text>
+  <text x="10" y="227.5" font-size="7" font-weight="700" letter-spacing="0.03em" fill="#46546E">PRINCIPLE 5</text>
+  <rect x="10" y="230.5" width="7" height="7" rx="1.5" fill="#F6BE2C"/>
+  <text x="22" y="236.7" font-size="7.4" fill="#14213D"><tspan font-weight="700">5.1</tspan> Duty to report a colleague</text>
+  <rect x="10" y="244.0" width="7" height="7" rx="1.5" fill="#F4845F"/>
+  <text x="22" y="250.2" font-size="7.4" fill="#14213D"><tspan font-weight="700">5.2</tspan> Reporting across organizations</text>
+  <rect x="10" y="257.5" width="7" height="7" rx="1.5" fill="#F6BE2C"/>
+  <text x="22" y="263.7" font-size="7.4" fill="#14213D"><tspan font-weight="700">5.3</tspan> An organizational reporting mechanism</text>
+  <text x="10" y="282.0" font-size="7" font-weight="700" letter-spacing="0.03em" fill="#46546E">PRINCIPLE 6</text>
+  <rect x="10" y="285.0" width="7" height="7" rx="1.5" fill="#F6BE2C"/>
+  <text x="22" y="291.2" font-size="7.4" fill="#14213D"><tspan font-weight="700">6.1</tspan> A preventive environment</text>
+  <rect x="10" y="298.5" width="7" height="7" rx="1.5" fill="#F6BE2C"/>
+  <text x="22" y="304.7" font-size="7.4" fill="#14213D"><tspan font-weight="700">6.2</tspan> Promoting a code of conduct</text>
+  <rect x="10" y="312.0" width="7" height="7" rx="1.5" fill="#F6BE2C"/>
+  <text x="22" y="318.2" font-size="7.4" fill="#14213D"><tspan font-weight="700">6.3</tspan> Leadership responsible for systems</text>
+</svg>

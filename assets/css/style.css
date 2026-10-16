@@ -445,16 +445,6 @@ main {
 .hero h1 { color: var(--white); }
 .hero .lede { color: var(--on-navy-muted); }
 
-.hero__figure {
-  padding: 1rem;
-  background: var(--white);
-  border-radius: 10px;
-}
-
-@media (min-width: 56rem) {
-  .hero-row { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); }
-}
-
 .hero {
   max-width: 40rem;
   margin-bottom: 0;
@@ -517,12 +507,6 @@ main {
 }
 
 .hero__btn--ghost:hover { background: var(--panel); color: var(--navy); }
-
-.hero__photo { aspect-ratio: 4 / 5; }
-
-@media (min-width: 56rem) {
-  .hero__photo { height: 100%; min-height: 22rem; aspect-ratio: auto; }
-}
 
 /* --- Data figures (Website_Agent_Prompt brief, Part B) -------------------
    Shared pattern for every hand-drawn SVG figure: a panel box holding the
@@ -651,6 +635,258 @@ main {
 
 .published-strip__item a {
   font-weight: 600;
+}
+
+/* --- Figure 1 (index.html) — the crosswalk at a glance -------------------
+   Built from real text (October 2026 brief, Part B) in place of the old SVG,
+   whose 7px labels were too small to read. Rows are <details>, so they open
+   with no JavaScript. The section is wider than main's 50rem column: its
+   width is capped at the viewport minus the usual 1.5rem gutters and it is
+   re-centered with a computed negative margin, so it never adds horizontal
+   scroll (unlike width: 100vw). */
+.fig1-section {
+  --fig1-w: min(68.75rem, calc(100vw - 3rem));
+  width: var(--fig1-w);
+  margin: 0 0 3.75rem calc((100% - var(--fig1-w)) / 2);
+}
+
+.fig1 { margin: 0; }
+
+.fig1-headline,
+.fig1-hint,
+.fig1 .fig__caption,
+.fig1-callout > * { max-width: 46rem; }
+
+.fig1-headline {
+  margin: 0 0 1.25rem;
+  color: var(--navy);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.fig1-tiles {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.fig1-tile {
+  padding: 0.875rem 1.125rem;
+  border-radius: 14px;
+  color: var(--navy);
+}
+
+.fig1-tile--none { background: var(--navy); color: var(--white); }
+.fig1-tile--some { background: var(--sun); }
+.fig1-tile--gap { background: var(--coral); }
+
+/* One shared line height keeps the three labels level although the "0"
+   tile's number is a step larger. */
+.fig1-tile__num {
+  display: block;
+  font-size: 2.25rem;
+  font-weight: 600;
+  line-height: 3rem;
+}
+
+.fig1-tile--none .fig1-tile__num { font-size: 2.75rem; }
+
+.fig1-tile__of { font-size: 1rem; }
+
+.fig1-tile__label {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+
+.fig1-tile--none .fig1-tile__label { color: var(--on-navy); }
+
+.fig1-hint {
+  margin: 0 0 0.5rem;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.fig1-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  column-gap: 2.5rem;
+}
+
+.fig1-group {
+  margin: 1.5rem 0 0.25rem;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.scp + .scp { border-top: 1px solid var(--rule); }
+
+/* Badge | label and "In U.S. law" line | chevron. The screen-reader status
+   prefix is position:absolute (.sr-only), so it takes no grid cell. */
+.scp > summary {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr) 1rem;
+  column-gap: 0.75rem;
+  align-items: start;
+  padding: 0.75rem 0.5rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.scp > summary::-webkit-details-marker { display: none; }
+
+.scp > summary:hover { background: var(--panel); }
+
+.scp > summary:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: -2px;
+}
+
+.scp > summary::after {
+  content: "";
+  justify-self: center;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-top: 0.4rem;
+  border-right: 2px solid var(--navy);
+  border-bottom: 2px solid var(--navy);
+  transform: rotate(45deg);
+}
+
+.scp[open] > summary::after {
+  margin-top: 0.65rem;
+  transform: rotate(-135deg);
+}
+
+.scp__num {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 1.5rem;
+  border-radius: 6px;
+  background: var(--sun);
+  color: var(--navy);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.scp--none .scp__num { background: var(--coral); }
+
+.scp__label {
+  display: block;
+  color: var(--navy);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.scp__law {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.scp__law strong { font-weight: 600; }
+
+.scp__law mark {
+  padding: 0 0.15em;
+  border-radius: 3px;
+  background: var(--cream);
+  color: var(--navy);
+}
+
+/* Open panel text lines up with the label column above it
+   (0.5rem padding + 2.5rem badge + 0.75rem gap). */
+.scp__panel,
+.scp__src { padding: 0 0.5rem 0 3.75rem; }
+
+.scp__panel { margin: 0; }
+
+.scp__panel dt {
+  margin: 0.25rem 0 0.1rem;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.scp__panel dd {
+  margin: 0 0 0.6rem;
+  color: var(--navy);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.scp__src {
+  margin: 0 0 0.9rem;
+  color: var(--subtle);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.fig1-callout {
+  margin: 2rem 0 0;
+  padding: 1.125rem 1.375rem;
+  border-radius: 14px;
+  background: var(--cream);
+  color: var(--navy);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.fig1-callout p { margin: 0 0 0.6rem; }
+
+.fig1-callout__title,
+.fig1-callout__punch {
+  font-family: var(--serif);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.fig1-callout__title { font-size: 1.25rem; }
+.fig1-callout__punch { font-size: 1.375rem; }
+
+.fig1-callout__link a { font-weight: 600; }
+
+.fig1-callout .fig1-callout__src {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+
+.fig1 .fig__caption {
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+
+@media (min-width: 40rem) {
+  .fig1-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (min-width: 48rem) {
+  .fig1-headline { font-size: 1.875rem; }
+  .fig1-tile__num { font-size: 3rem; line-height: 3.75rem; }
+  .fig1-tile--none .fig1-tile__num { font-size: 3.5rem; }
+  .fig1-tile__of { font-size: 1.125rem; }
+}
+
+@media (min-width: 64rem) {
+  .fig1-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 .fig5-box { height: 24rem; }
@@ -899,9 +1135,98 @@ main {
   line-height: 1.45;
 }
 
-/* --- Figure 4 (project.html) — the funnel --------------------------------- */
+/* --- Figure 4 (project.html): the funnel, in HTML (Part C2) ---------------
+   Three bands cut to trapezoids with clip-path. The sides run in one straight
+   line from the top of the funnel to its foot (each band loses 11% of the
+   funnel's width per side), so the three bands read as one funnel. Each band
+   is clipped relative to its own width: inset = 11 / band width. Annotations
+   sit level with their band from 48rem up; below that the funnel comes first
+   and the annotations follow. Bands stretch with their row, so a taller
+   annotation never opens a gap in the funnel. */
 
-.fig4-box { height: 15rem; }
+.fig4 .fig4-box {
+  height: auto;
+  padding: 1.5rem 1.25rem;
+}
+
+/* The site caption size (0.8rem = 12.8px) sits just under the 13px floor
+   set for this figure. */
+.fig4 .fig__caption { font-size: 0.8125rem; }
+
+.fig4-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 380px);
+  justify-content: center;
+  width: 100%;
+}
+
+.fig4-band {
+  display: grid;
+  place-items: center;
+  justify-self: center;
+  min-height: 4.5rem;
+  padding: 0 0.5rem;
+  color: var(--navy);
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.fig4-band--1 {
+  grid-row: 1;
+  width: 100%;
+  background: var(--sun);
+  clip-path: polygon(0 0, 100% 0, 89% 100%, 11% 100%);
+}
+
+.fig4-band--2 {
+  grid-row: 2;
+  width: 78%;
+  background: var(--coral);
+  clip-path: polygon(0 0, 100% 0, 85.897% 100%, 14.103% 100%);
+}
+
+.fig4-band--3 {
+  grid-row: 3;
+  width: 56%;
+  background: var(--navy);
+  color: var(--white);
+  clip-path: polygon(0 0, 100% 0, 80.357% 100%, 19.643% 100%);
+}
+
+.fig4-note {
+  margin: 0.75rem 0 0;
+  padding: 0.1rem 0 0.1rem 0.85rem;
+  border-left: 4px solid var(--navy);
+  color: var(--navy);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.fig4-note--1 { grid-row: 4; margin-top: 1.25rem; border-left-color: var(--sun); }
+.fig4-note--2 { grid-row: 5; border-left-color: var(--coral); }
+.fig4-note--3 { grid-row: 6; border-left-color: var(--navy); }
+
+@media (min-width: 48rem) {
+  .fig4-grid {
+    grid-template-columns: minmax(0, 380px) minmax(0, 380px);
+    column-gap: 1.75rem;
+  }
+
+  .fig4-band { grid-column: 1; min-height: 5.75rem; }
+
+  .fig4-note {
+    grid-column: 2;
+    align-self: center;
+    margin: 0.4rem 0;
+  }
+
+  .fig4-note--1 { grid-row: 1; margin-top: 0.4rem; }
+  .fig4-note--2 { grid-row: 2; }
+  .fig4-note--3 { grid-row: 3; }
+}
 
 /* --- Cards -------------------------------------------------------------- */
 
@@ -916,7 +1241,7 @@ main {
 
 /* One consistent accent everywhere (not a different hue per card) — see
    the token-block note above. Each card's identity now comes from its
-   card__photo abstract mark (a .ph--a/b/c/d/e variant, set in the markup),
+   card__photo abstract mark (a .ph--b/c/d variant, set in the markup),
    not from a per-card color. */
 .card {
   display: flex;
@@ -951,6 +1276,14 @@ main {
   flex: 1 1 auto;
   margin: 0 0 1.15rem;
   font-size: 0.99rem;
+}
+
+/* The Toolkit card's Quick Start line sits with the arrow link, not with
+   the description that grows to fill the card. */
+.card .card__start {
+  flex: 0 0 auto;
+  margin: 0 0 0.6rem;
+  font-size: 0.93rem;
 }
 
 .arrow {
@@ -1504,8 +1837,6 @@ main {
    .note or paragraph with no bottom margin of its own) needs the top gap. */
 .tool + .tool { margin-top: 0; }
 
-.tool__photo { height: 6rem; border-radius: 0; }
-
 .tool__inner { display: flex; gap: 1.2rem; padding: 1.5rem 1.5rem 1.4rem; }
 
 .tool__num {
@@ -1570,6 +1901,22 @@ main {
 
 .note p:last-child { margin-bottom: 0; }
 
+/* "Start here" box at the top of toolkit.html: the cream .note callout with
+   a heading, the site's primary button, and a plain mailto link. */
+.quick-start { margin: 0 0 2.25rem; }
+
+.quick-start h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.3rem;
+}
+
+.quick-start__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+}
+
 /* --- Marks: a "crosswalk" motif, not decorative shapes ---------------------
    Two node squares joined by a line — literally the site's own subject
    (mapping one standard to another) rather than arbitrary abstract art.
@@ -1577,9 +1924,8 @@ main {
    which didn't fit a legal/compliance site. container-type:size + cqmin
    keeps every element proportional to the SHORTER side of its own box
    regardless of the box's aspect ratio, so nothing stretches into an odd
-   ellipse in a box that isn't square. Used for: the home hero photo slot,
-   each home card, each toolkit tool, the research publication marks, and
-   the about-page portrait slot. */
+   ellipse in a box that isn't square. Used for: each home card and the
+   research publication marks. */
 .ph {
   position: relative;
   overflow: hidden;
@@ -1591,14 +1937,10 @@ main {
 
 .ph__line {
   position: absolute;
-  background: var(--rule);
+  background: var(--navy);
 }
 
 .ph::before, .ph::after { content: ""; position: absolute; border-radius: 3px; }
-
-.ph--a .ph__line { top: 50%; left: 22cqmin; width: 56cqmin; height: 2px; }
-.ph--a::before { width: 15cqmin; height: 15cqmin; top: calc(50% - 7.5cqmin); left: 14cqmin; background: var(--navy); }
-.ph--a::after { width: 15cqmin; height: 15cqmin; top: calc(50% - 7.5cqmin); right: 14cqmin; border: 2.5px solid var(--sun); background: var(--white); }
 
 .ph--b .ph__line { top: 18cqmin; bottom: 18cqmin; left: 50%; width: 2px; height: auto; }
 .ph--b::before { width: 14cqmin; height: 14cqmin; top: 10cqmin; left: calc(50% - 7cqmin); border: 2.5px solid var(--navy); background: var(--white); }
@@ -1612,19 +1954,12 @@ main {
 .ph--d::before { width: 13cqmin; height: 13cqmin; top: 14cqmin; right: calc(34% - 6.5cqmin); border: 2.5px solid var(--sun); background: var(--white); }
 .ph--d::after { width: 13cqmin; height: 13cqmin; bottom: 14cqmin; right: calc(34% - 6.5cqmin); border: 2.5px solid var(--navy); background: var(--white); }
 
-.ph--e .ph__line { top: 40%; left: 18cqmin; width: 50cqmin; height: 2px; }
-.ph--e::before { width: 15cqmin; height: 15cqmin; top: calc(40% - 7.5cqmin); left: 12cqmin; background: var(--navy); }
-.ph--e::after { width: 15cqmin; height: 15cqmin; top: calc(40% - 7.5cqmin); left: 62cqmin; background: var(--sun); }
-
-.tk-banner { height: 12rem; margin: 0 0 2.75rem; }
-
 .prj-banner { height: 11rem; margin: 0 0 2.75rem; }
 
 /* --- Motion: one deliberate on-load reveal, nothing scattered ------------ */
 
-.hero, .hero__photo, .cards { opacity: 0; animation: reveal-in 0.5s ease forwards; }
+.hero, .cards { opacity: 0; animation: reveal-in 0.5s ease forwards; }
 .hero { animation-delay: 0.02s; }
-.hero__photo { animation-delay: 0.1s; }
 .cards { animation-delay: 0.18s; }
 
 @keyframes reveal-in {
@@ -1633,74 +1968,176 @@ main {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero, .hero__photo, .cards { opacity: 1; animation: none; }
+  .hero, .cards { opacity: 1; animation: none; }
 }
 
-/* --- About page --------------------------------------------------------- */
+/* --- About page: profile layout (Part C1) --------------------------------
+   Round portrait in its own column beside the name block and the opening
+   paragraphs; on narrow screens it sits above the paragraphs, with the name
+   block beside it. The portrait is cropped to head and shoulders by scaling
+   the image inside a round frame (the source is a 4:5 three-quarter shot). */
 
-/* Photo sits in the right column on wide screens; on narrow screens the source
-   order takes over and it leads the page. */
-.about-layout {
+.about-page .page-head h1 { font-size: 2.125rem; }
+
+.profile {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 12rem;
-  gap: 2.5rem;
+  grid-template-columns: 140px minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  column-gap: 2rem;
   align-items: start;
+  max-width: calc(140px + 2rem + 42.5rem);
 }
 
-.about-layout > .prose { grid-area: 1 / 1; }
-.about-layout > .portrait { grid-area: 1 / 2; }
-
-@media (max-width: 48rem) {
-  .about-layout {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 2rem;
-  }
-
-  .about-layout > .prose,
-  .about-layout > .portrait { grid-area: auto; }
-}
-
-.portrait {
-  margin: 0;
-  max-width: 12rem;
-}
-
-.portrait img {
-  display: block;
-  width: 100%;
-  border: 1px solid var(--rule);
+.profile__photo {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  position: relative;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  overflow: hidden;
   background: var(--panel);
 }
 
-.portrait figcaption {
-  margin-top: 0.6rem;
-  color: var(--muted);
-  font-size: 0.8rem;
+.profile__photo img {
+  position: absolute;
+  top: -19%;
+  left: -65%;
+  width: 190%;
+  max-width: none;
+  height: auto;
+}
+
+.profile__name {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0 0 1.25rem;
+  padding-top: 0.5rem;
+}
+
+.profile__name p { margin: 0; }
+
+.profile__title {
+  color: var(--navy);
+  font-family: var(--serif);
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.profile__meta,
+.profile__link {
+  font-size: 0.9375rem;
   line-height: 1.5;
 }
 
-.about-mark { aspect-ratio: 4 / 5; max-width: 16rem; }
+.profile__meta { margin-top: 0.25rem; color: var(--muted); }
 
-.credentials {
-  margin: 2.25rem 0 0;
-  padding: 1.25rem 1.4rem;
-  background: var(--panel);
+.profile__intro {
+  grid-column: 2;
+  grid-row: 2;
+  max-width: 42.5rem;
+}
+
+.profile__intro,
+.about-body {
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.about-body { max-width: 42.5rem; }
+
+.about-body h2 {
+  margin: 2.5rem 0 0.9rem;
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+
+.about-lead { color: var(--muted); }
+
+.exp-cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 56.25rem) {
+  .exp-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.exp-cards li {
+  margin: 0;
+  padding: 1.125rem;
+  background: var(--white);
   border: 1px solid var(--rule);
-  border-left: 4px solid var(--navy);
-  font-size: 0.97rem;
-}
-
-.credentials h2 {
-  margin: 0 0 0.6rem;
-  font-family: var(--sans);
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  border-top: 4px solid var(--navy);
+  border-radius: 12px;
   color: var(--navy);
+  font-size: 1rem;
+  line-height: 1.55;
 }
 
-.credentials p:last-child { margin-bottom: 0; }
+.exp-cards li:nth-child(1) { border-top-color: var(--coral); }
+.exp-cards li:nth-child(2) { border-top-color: var(--sun); }
+.exp-cards li:nth-child(3) { border-top-color: var(--teal); }
+.exp-cards li:nth-child(4) { border-top-color: var(--navy); }
+
+.cred-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cred-list li { margin: 0 0 0.6rem; }
+
+.cred-list strong { font-weight: 600; }
+
+.about-page .disclaimer {
+  margin-top: 2.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+  color: var(--subtle);
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 40rem) {
+  .about-page .page-head h1 { font-size: 1.75rem; }
+
+  .profile {
+    grid-template-columns: 112px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    column-gap: 1.1rem;
+  }
+
+  .profile__photo {
+    grid-row: 1;
+    width: 112px;
+    height: 112px;
+  }
+
+  .profile__name {
+    grid-row: 1;
+    align-self: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  .profile__intro {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    margin-top: 1.5rem;
+  }
+
+  .profile__intro,
+  .about-body { font-size: 1rem; }
+
+  .about-body h2 { font-size: 1.3125rem; }
+}
 
 /* --- Contact ------------------------------------------------------------ */
 
@@ -1821,7 +2258,20 @@ main {
   .hero .lede,
   .hero__intro { color: #000; }
 
-  .hero__figure { padding: 0; }
+  .fig1-tile,
+  .scp__num,
+  .scp--none .scp__num,
+  .fig1-callout {
+    background: #fff;
+    border: 1px solid #999;
+  }
+
+  .fig1-tile,
+  .fig1-tile--none .fig1-tile__label { color: #000; }
+
+  .scp__law mark { background: none; color: #000; font-weight: 600; }
+
+  .scp > summary::after { display: none; }
 
   .site-footer::before { display: none; }
 
@@ -1846,7 +2296,7 @@ main {
 
   .card,
   .contact-details,
-  .credentials { border-color: #bbb; }
+  .exp-cards li { border-color: #bbb; }
 
   a { color: #000; text-decoration: underline; }
 
@@ -2209,5 +2659,10 @@ main {
     border-top: 0.5pt solid #999;
     color: #222;
     font-size: 8pt;
+  }
+
+  .fig4-band {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 }
