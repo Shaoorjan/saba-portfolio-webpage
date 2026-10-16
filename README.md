@@ -9,8 +9,9 @@ organizations.
 ## What's here
 
 Plain HTML with one stylesheet and one small script. No build step, no framework,
-no package manager, no third-party requests. The site works opened straight from
-disk as well as hosted.
+no package manager. The only third-party request is the Google Analytics tag
+(see Analytics); fonts are self-hosted. The site works opened straight from disk
+as well as hosted.
 
 | File | Page |
 |---|---|
@@ -20,11 +21,15 @@ disk as well as hosted.
 | `toolkit.html` | The toolkit — all four tools |
 | `self-assessment.html` | The 32-indicator safeguarding self-assessment, scored in the browser |
 | `project.html` | The U.S. Nonprofit Safeguarding Crosswalk Project |
+| `baseline-2026.html` | Washington Safeguarding Baseline 2026 |
 | `contact.html` | Contact |
 | `404.html` | Not-found page |
 | `assets/css/style.css` | The entire design system |
 | `assets/js/self-assessment.js` | Scoring for the self-assessment (nothing else) |
-| `assets/docs/` | Draft Word documents linked from the Toolkit page's "pending Zenodo republication" section — not archived on Zenodo yet |
+| `assets/docs/` | Downloads linked from the site: the four toolkit tools (PDF and Word), the Quick Start pilot draft, the Module 1 PDF, the Baseline 2026 results, and the Project Overview |
+| `assets/fonts/` | Self-hosted Source Serif 4 and Source Sans 3 |
+| `assets/img/` | Portrait on the About page |
+| `figures/` | Figure 1 for documents: a 2× PNG of the current version (`png/`) and the retired September 2026 SVG (`svg/`) |
 
 ## The self-assessment page
 
@@ -40,7 +45,7 @@ stay literally true. Never add analytics events to the indicators or the score.
 ## Analytics
 
 Google Analytics 4 (Measurement ID `G-36630T5V3N`) is live in the `<head>` of
-all eight pages — page views only. Never add event tracking to the
+all nine pages — page views only. Never add event tracking to the
 self-assessment's indicators or score; that page states explicitly that
 nothing is collected, and it has to stay true.
 
@@ -83,5 +88,5 @@ in Google Search Console if the domain ever changes again.
 Site text and design © 2026 Saba Gul. The published research and tools the site
 links to are licensed CC BY 4.0 and archived on Zenodo:
 
-- *Safeguarding Without a Baseline* (Module 1) — https://doi.org/10.5281/zenodo.21847737
+- *Safeguarding Without a Baseline* (Module 1) — https://doi.org/10.5281/zenodo.22022939
 - Implementation Toolkit (Tools 1–4) — https://doi.org/10.5281/zenodo.22023885
