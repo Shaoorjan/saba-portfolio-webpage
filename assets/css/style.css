@@ -1396,6 +1396,13 @@ main {
   .stat-cards { grid-template-columns: minmax(0, 1fr); }
 }
 
+/* baseline-2026.html: the Quick Start line under the six indicators keeps
+   the figure that follows at the same distance the stat tiles did, and the
+   Bright Spot callout gets room before the download button. */
+.indicators__next { margin: 1.25rem 0 3.5rem; }
+
+.note + .hero__actions { margin-top: 1.5rem; }
+
 /* --- Updates ------------------------------------------------------------ */
 
 /* A shaded band instead of a hairline-topped list — gives the page a
