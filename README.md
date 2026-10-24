@@ -26,7 +26,7 @@ as well as hosted.
 | `404.html` | Not-found page |
 | `assets/css/style.css` | The entire design system |
 | `assets/js/self-assessment.js` | Scoring for the self-assessment (nothing else) |
-| `assets/docs/` | Downloads linked from the site: the four toolkit tools (PDF and Word), the Quick Start pilot draft, the Module 1 PDF, the Baseline 2026 results, and the Project Overview |
+| `assets/docs/` | Downloads linked from the site: the four toolkit tools (PDF and Word), the Quick Start, the Module 1 PDF, the Baseline 2026 results, and the Project Overview |
 | `assets/fonts/` | Self-hosted Source Serif 4 and Source Sans 3 |
 | `assets/img/` | The project emblem in the header, and the portrait on the About page |
 | `figures/` | Figure 1 for documents: a 2× PNG of the current version (`png/`) and the retired September 2026 SVG (`svg/`) |
